@@ -1,6 +1,6 @@
 "use strict";
 var crypto = require("crypto");
-var severConfig=require('../severconfig');
+var severConfig=require('../severConfig');
 
 const ENCRYPTION_KEY = severConfig.ENCRYPTION_KEY;
 const IV_LENGTH = 16;
