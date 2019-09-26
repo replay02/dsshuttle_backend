@@ -6,7 +6,7 @@ var mongoose    = require('mongoose');
 
 //[smtp mail]
 var nodemailer = require('nodemailer');
-var severConfig=require('severConfig');
+var severConfig=require('./severConfig.js');
 var smtpPool=require('nodemailer-smtp-pool');
 
 //var fcm = require('fcm-node');
