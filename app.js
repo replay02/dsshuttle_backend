@@ -3,6 +3,7 @@ var express     = require('express');
 var app         = express();
 var bodyParser  = require('body-parser');
 var mongoose    = require('mongoose');
+var cors = require('cors');
 
 //[smtp mail]
 var nodemailer = require('nodemailer');
@@ -10,6 +11,8 @@ var severConfig = require('./severConfig');
 var smtpPool = require('nodemailer-smtp-pool');
 
 //var fcm = require('fcm-node');
+
+app.use(cors());
 
 // [CONFIGURE APP TO USE bodyParser]
 app.use(bodyParser.urlencoded({ extended: true }));
