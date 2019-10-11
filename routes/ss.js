@@ -67,6 +67,7 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
       // ssUser.register_confirm = false;
       ssUser.register_confirm = true;
       ssUser.validate_email = false;
+      ssUser.last_login_date = 'not logined';
       ssUser.save(function(err){
         if(err){
           console.error(err);
@@ -244,7 +245,7 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
         }
 
         // 클라이언트에서 로그인 유지 체크 시, 로그인 토큰 response
-        if(req.body.auto_login === true) {
+        // if(req.body.auto_login === true) {
           let userId = req.body.id;
           let now = new Date();
           let login_token = encryptionHelper.encrypt(now.getTime() + "|" + userId );
@@ -264,10 +265,10 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
             console.log('SsUser login_token updated Successfully');
             res.json({ resCode: 200, resMsg:'OK', login_token:login_token });
           });
-        }
-        else {
-          res.json({ resCode: 200, resMsg:'OK'});
-        }
+        // }
+        // else {
+        //   res.json({ resCode: 200, resMsg:'OK'});
+        // }
       })
     });
 
@@ -311,7 +312,10 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
         // 무조건 로그인 토큰 갱신하여 클라이언트에 전달
 
         let login_token = encryptionHelper.encrypt(now.getTime()+ "|" + req.body.id);
-        SsUser.update({ login_token: req.body.login_token }, { $set: { login_token : login_token} }, function(err, output){
+
+        let date = getWorldTime(+9);
+
+        SsUser.update({ login_token: req.body.login_token }, { $set: { login_token : login_token, last_login_date : date} }, function(err, output){
           //if(err) res.status(500).json({ error: 'database failure' });
           if(err) {
             console.log("error : database failure"); //error log
