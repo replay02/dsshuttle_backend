@@ -13,6 +13,36 @@ admin.initializeApp({
     databaseURL:'https://dsshuttle-5a91e.firebaseio.com'
 });
 
+function getWorldTime(tzOffset) { // 24시간제
+  var now = new Date();
+  var tz = now.getTime() + (now.getTimezoneOffset() * 60000) + (tzOffset * 3600000);
+  now.setTime(tz);
+
+
+  var s =
+    leadingZeros(now.getFullYear(), 4) + '-' +
+    leadingZeros(now.getMonth() + 1, 2) + '-' +
+    leadingZeros(now.getDate(), 2) + ' ' +
+
+    leadingZeros(now.getHours(), 2) + ':' +
+    leadingZeros(now.getMinutes(), 2) + ':' +
+    leadingZeros(now.getSeconds(), 2);
+
+  return s;
+}
+
+
+function leadingZeros(n, digits) {
+  var zero = '';
+  n = n.toString();
+
+  if (n.length < digits) {
+    for (i = 0; i < digits - n.length; i++)
+      zero += '0';
+  }
+  return zero + n;
+}
+
 
 module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardcontent)
 {
@@ -218,7 +248,10 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
           let userId = req.body.id;
           let now = new Date();
           let login_token = encryptionHelper.encrypt(now.getTime() + "|" + userId );
-          SsUser.update({ id: req.body.id }, { $set: { login_token : login_token} }, function(err, output){
+
+          let date = getWorldTime(+9);
+
+          SsUser.update({ id: req.body.id }, { $set: { login_token : login_token, last_login_date : date} }, function(err, output){
             //if(err) res.status(500).json({ error: 'database failure' });
             if(err) {
               console.log("error : database failure"); //error log

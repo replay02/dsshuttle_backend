@@ -17,7 +17,8 @@ var ssUserScheme = new Schema({
     validate_email:{
         type: Boolean,
         default: false
-    }
+    },
+    last_login_date:String
 });
 
 module.exports = mongoose.model('ssUser', ssUserScheme);
