@@ -56,6 +56,8 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
     var encryptionHelper = require("../Utils/enc-dec-util.js")
     var algorithm = encryptionHelper.CIPHERS.AES_256;
 
+    var mongodb = require('mongodb');
+
     // 회원가입
     router.post('/api/regiUser', function(req, res){
       var ssUser = new SsUser();
@@ -708,7 +710,11 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
        delete from boardcontents where */
     router.delete('/api/boardcontents/', function(req, res){
 
-      // new mongodb.ObjectID({req.params._id}})
+      // )
+      console.log("req.body._id : " + req.body._id);
+      console.log("req.body.pwd : " + req.body.pwd);
+      console.log("mongodb id : " + new mongodb.ObjectID(req.body._id));
+
 
         Boardcontent.deleteOne({ _id: req.body._id , password:req.body.pwd}, function(err, output){
             if(err || output == null || output.length === 0) {
