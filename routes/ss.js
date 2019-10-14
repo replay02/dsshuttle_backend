@@ -716,7 +716,7 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
       console.log("mongodb id : " + new mongodb.ObjectID(req.body._id));
 
 
-        Boardcontent.deleteOne({ _id: req.body._id , password:req.body.pwd}, function(err, output){
+        Boardcontent.deleteOne({ _id: new mongodb.ObjectID(req.body._id) , password:req.body.pwd}, function(err, output){
             if(err || output == null || output.length === 0) {
               console.log("boardcontents delete error!!");
               res.json({ resCode: 202, resMsg:'게시글이 존재하지 않거나 패스워드가 일치하지 않습니다.' });
