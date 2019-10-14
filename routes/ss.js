@@ -713,7 +713,7 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
       // )
       console.log("req.body._id : " + req.body._id);
       console.log("req.body.pwd : " + req.body.pwd);
-      console.log("mongodb id : " + new mongodb.ObjectID(req.body._id));
+      // console.log("mongodb id : " + new mongodb.ObjectID(req.body._id));
 
 
         Boardcontent.deleteOne({ _id: new mongodb.ObjectID(req.body._id) , password:req.body.pwd}, function(err, output){
