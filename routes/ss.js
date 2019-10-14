@@ -151,12 +151,16 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
 
     // 사용자 이메일 인증 후 관리자 승인 완료 처리
     router.post('/api/confirmUser' , function(req,res) {
-      SsUser.update({ id: req.body.id }, {register_confirm:req.body.register}, function(err, output){
+
+      SsUser.update({ id: req.body.id }, {register_confirm : req.body.register}, function(err, output){
         //if(err) res.status(500).json({ error: 'database failure' });
         if(err) {
           res.json({ resCode: 500, resMsg:err });
           console.log(err);
         }
+
+        console.log('confirmUser updated Successfully');
+        res.writeHead(200, {'Content-Type': 'application/json'});
         res.json({ resCode: 200, resMsg:'OK' });
       });
     });
