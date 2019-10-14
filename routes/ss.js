@@ -778,16 +778,16 @@ module.exports = function(
     // console.log("mongodb id : " + new mongodb.ObjectID(req.body._id));
 
     var id = new mongodb.ObjectID(req.body._id);
-    Boardcontent.find({ _id: id }, function(err, userInfos) {
+    Boardcontent.find({ _id: id }, function(err, infos) {
       if (err) {
         res.json({ resCode: 500, resMsg: "해당 게시글이 존재하지 않습니다" });
         return;
       }
-      if (!userInfos || userInfos.length === 0) {
+      if (!infos || infos.length === 0) {
         res.json({ resCode: 202, resMsg: "해당 게시글이 존재하지 않습니다" });
         return;
       }
-      console.log("userInfos : " + userInfos);
+      console.log("infos : " + infos);
 
       //
       Boardcontent.find({ _id: id, password: req.body.pwd }, function(
@@ -805,7 +805,7 @@ module.exports = function(
 
         Boardcontent.deleteOne({ _id: id }, function(err, output) {
           if (err) {
-            res.json({ resCode: 700, resMsg: "식제에 실패 했습니다" });
+            res.json({ resCode: 700, resMsg: "삭제에 실패 했습니다" });
             return;
           }
           if (!output || output.length === 0) {
@@ -817,23 +817,6 @@ module.exports = function(
         });
       });
     });
-
-    Boardcontent.deleteOne(
-      { _id: new mongodb.ObjectID(req.body._id), password: req.body.pwd },
-      function(err, output) {
-        if (err || output == null || output.length == 0) {
-          console.log("boardcontents delete error!!");
-          res.json({
-            resCode: 202,
-            resMsg: "게시글이 존재하지 않거나 패스워드가 일치하지 않습니다."
-          });
-          return;
-        }
-
-        console.log("boardcontents delete success!!");
-        res.json({ resCode: 200, resMsg: "OK" });
-      }
-    );
   });
 
   // UPDATE THE BOOK
