@@ -708,10 +708,11 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
        delete from boardcontents where */
     router.delete('/api/boardcontents/', function(req, res){
 
-        Boardcontent.deleteOne({ _id: req.params.content_id }, function(err, output){
-            if(err) return res.status(500).json({ error: "database failure" });
+        Boardcontent.deleteOne({ _id: req.params._id , password:req.params.pwd}, function(err, output){
+            if(err) 
+              return res.status(500).json({ error: "database failure" });
 
-            res.status(204).end();
+            res.status(200).end();
         })
     });
 
