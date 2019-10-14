@@ -708,11 +708,18 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
        delete from boardcontents where */
     router.delete('/api/boardcontents/', function(req, res){
 
-        Boardcontent.deleteOne({ _id: req.params._id , password:req.params.pwd}, function(err, output){
-            if(err) 
-              return res.status(500).json({ error: "database failure" });
+      // new mongodb.ObjectID({req.params._id}})
 
-            res.status(200).end();
+        Boardcontent.deleteOne({ _id: req.params._id , password:req.params.pwd}, function(err, output){
+            if(err) {
+              res.json({ resCode: 202, resMsg:'게시글이 존재하지 않거나 패스워드가 일치하지 않습니다.' });
+              console.log("boardcontents delete error!!");
+              return;
+            }
+
+            console.log("boardcontents delete success!!");
+
+            res.json({ resCode: 202, resMsg:'게시글이 존재하지 않거나 패스워드가 일치하지 않습니다.' });
         })
     });
 
