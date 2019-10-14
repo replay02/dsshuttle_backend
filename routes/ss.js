@@ -710,16 +710,14 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
 
       // new mongodb.ObjectID({req.params._id}})
 
-        Boardcontent.deleteOne({ _id: req.params._id , password:req.params.pwd}, function(err, output){
+        Boardcontent.deleteOne({ _id: req.body._id , password:req.body.pwd}, function(err, output){
             if(err) {
-              res.json({ resCode: 202, resMsg:'게시글이 존재하지 않거나 패스워드가 일치하지 않습니다.' });
               console.log("boardcontents delete error!!");
+              res.json({ resCode: 202, resMsg:'게시글이 존재하지 않거나 패스워드가 일치하지 않습니다.' });
               return;
             }
-
             console.log("boardcontents delete success!!");
-
-            res.json({ resCode: 202, resMsg:'게시글이 존재하지 않거나 패스워드가 일치하지 않습니다.' });
+            res.json({ resCode: 200, resMsg:'OK' });
         })
     });
 
