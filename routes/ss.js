@@ -64,8 +64,8 @@ module.exports = function(app,SmtpPool, pushServerKey,ShuttleTimes,SsUser,Boardc
       ssUser.email = req.body.email;
       ssUser.phone = req.body.phone;
       ssUser.name = req.body.name;
-      // ssUser.register_confirm = false;
-      ssUser.register_confirm = true;
+      ssUser.register_confirm = false;
+      // ssUser.register_confirm = true;
       ssUser.validate_email = false;
       ssUser.last_login_date = 'not logined';
       ssUser.save(function(err){
