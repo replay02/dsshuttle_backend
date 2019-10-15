@@ -80,8 +80,8 @@ var mailRouter = require('./routes/smtp')(app, SmtpPool, KarforuInfo);
 // yhkim add
 var ssRouter = require('./routes/ss')(app,SmtpPool,pushServerKey, ShuttleTimes,SsUser,Boardcontent);
 
-
 var logger = require('morgan');
+var fs = require('fs');
 app.use(logger({
     format: 'dev',
     stream: fs.createWriteStream('app.log', {'flags': 'w'})
