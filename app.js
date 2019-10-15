@@ -135,10 +135,10 @@ app.use(logger(":url"), function(req, res, next) {
 //   console.log("request api : " + req.originalUrl);
 
 //   var ssDatas = new SsDatas();
-  ssDatas.apiUrl = req.originalUrl;
-  ssDatas.date = getWorldTime(+9);
+    SsDatas.apiUrl = req.originalUrl;
+    SsDatas.date = getWorldTime(+9);
 
-  ssDatas.save(function(err) {
+    SsDatas.save(function(err) {
     if (err) {
       console.error(err);
       res.json({ resCode: 401, resMsg: "로그 저장 오류" });
