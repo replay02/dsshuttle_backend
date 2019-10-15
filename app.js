@@ -10,6 +10,9 @@ var nodemailer = require("nodemailer");
 var severConfig = require("./severConfig");
 var smtpPool = require("nodemailer-smtp-pool");
 
+var logger = require("morgan");
+var SsDatas = require("./models/ssDatas");
+
 //var fcm = require('fcm-node');
 
 app.use(cors());
@@ -87,12 +90,12 @@ var ssRouter = require("./routes/ss")(
   pushServerKey,
   ShuttleTimes,
   SsUser,
-  Boardcontent
+  Boardcontent,
+  SsDatas
 );
 
 // yhkim test
-var logger = require("morgan");
-var SsDatas = require("./models/ssDatas");
+
 // var fs = require('fs');
 // app.use(logger({
 //     format: 'dev',
@@ -133,18 +136,14 @@ function leadingZeros(n, digits) {
 
 app.use(logger(":url"), function(req, res, next) {
 //   console.log("request api : " + req.originalUrl);
-
   var ssDatas = new SsDatas();
   ssDatas.apiUrl = req.originalUrl;
   ssDatas.date = getWorldTime(+9);
-
   ssDatas.save(function(err) {
     if (err) {
       console.error(err);
-      res.json({ resCode: 401, resMsg: "로그 저장 오류" });
-
     } else {
-        res.json({ resCode: 200, resMsg: "OK" });
+        console.error("saved complete");
     }
   });
   next();

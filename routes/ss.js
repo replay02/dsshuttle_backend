@@ -51,7 +51,8 @@ module.exports = function(
   pushServerKey,
   ShuttleTimes,
   SsUser,
-  Boardcontent
+  Boardcontent,
+  SsDatas
 ) {
   // <------ yhkim 추가 시작 ------->
   var express = require("express");
@@ -547,6 +548,16 @@ module.exports = function(
       res.json(infos);
     });
   });
+
+
+  // 로그 데이터 가져오기 (테스트용)
+  router.get("/data", function(req, res) {
+    SsDatas.find(function(err, infos) {
+      if (err) return res.status(500).send({ error: "database failure" });
+      res.json(infos);
+    });
+  });
+
 
   // 모든 사용자 가져오기 (테스트용)
   router.get("/user", function(req, res) {
