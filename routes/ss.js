@@ -756,7 +756,7 @@ module.exports = function(
 
   /* CREATE NEW CONTENT
        insert into boardcontents value ... */
-  router.post("/api/boardcontents", function(req, res) {
+  router.post("/api/saveBoardcontents", function(req, res) {
     var boardcontent = new Boardcontent();
 
     boardcontent.writer = req.body.writer;
@@ -792,7 +792,7 @@ module.exports = function(
 
   /* DELETE CONTENT
        delete from boardcontents where */
-  router.delete("/api/boardcontents/", function(req, res) {
+  router.delete("/api/deleteBoardcontents/", function(req, res) {
     // )
     console.log("req.body._id : " + req.body._id);
     console.log("req.body.pwd : " + req.body.pwd);
