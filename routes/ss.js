@@ -723,7 +723,6 @@ module.exports = function(
   /* GET MAX(content_id)
        select max(content_id) from boardcontents */
   //    app.get('/api/selectIdboardcontents', function(req,res){
-
   //     Boardcontent.findOne()
   //         .sort({'content_id':-1})
   //         .select('content_id')
