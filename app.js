@@ -80,6 +80,14 @@ var mailRouter = require('./routes/smtp')(app, SmtpPool, KarforuInfo);
 // yhkim add
 var ssRouter = require('./routes/ss')(app,SmtpPool,pushServerKey, ShuttleTimes,SsUser,Boardcontent);
 
+
+var logger = require('morgan');
+app.use(logger({
+    format: 'dev',
+    stream: fs.createWriteStream('app.log', {'flags': 'w'})
+  }));
+
+
 //아래와 같이 rest api 라우터를 분리한다. 주석
 app.use('/', indexRouter);
 app.use('/push', pushRouter);
