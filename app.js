@@ -113,13 +113,13 @@ function getWorldTime(tzOffset) {
     "-" +
     leadingZeros(now.getMonth() + 1, 2) +
     "-" +
-    leadingZeros(now.getDate(), 2) +
-    " " +
-    leadingZeros(now.getHours(), 2) +
-    ":" +
-    leadingZeros(now.getMinutes(), 2) +
-    ":" +
-    leadingZeros(now.getSeconds(), 2);
+    leadingZeros(now.getDate(), 2);
+    // + " " +
+    // leadingZeros(now.getHours(), 2) +
+    // ":" +
+    // leadingZeros(now.getMinutes(), 2) +
+    // ":" +
+    // leadingZeros(now.getSeconds(), 2);
 
   return s;
 }
