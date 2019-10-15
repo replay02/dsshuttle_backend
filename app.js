@@ -81,12 +81,15 @@ var mailRouter = require('./routes/smtp')(app, SmtpPool, KarforuInfo);
 var ssRouter = require('./routes/ss')(app,SmtpPool,pushServerKey, ShuttleTimes,SsUser,Boardcontent);
 
 var logger = require('morgan');
-var fs = require('fs');
-app.use(logger({
-    format: 'dev',
-    stream: fs.createWriteStream('app.log', {'flags': 'w'})
-  }));
-
+// var fs = require('fs');
+// app.use(logger({
+//     format: 'dev',
+//     stream: fs.createWriteStream('app.log', {'flags': 'w'})
+//   }));
+app.use(logger(":url"), function(req, res, next){
+    console.log(req);
+    next();
+  });
 
 //아래와 같이 rest api 라우터를 분리한다. 주석
 app.use('/', indexRouter);
