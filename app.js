@@ -132,21 +132,21 @@ function leadingZeros(n, digits) {
 }
 
 app.use(logger(":url"), function(req, res, next) {
-  console.log("request api : " + req);
+  console.log("request api : " + req.originalUrl);
 
-  var ssDatas = new SsDatas();
-  ssDatas.apiUrl = req;
-  ssDatas.date = getWorldTime(+9);
+//   var ssDatas = new SsDatas();
+//   ssDatas.apiUrl = req;
+//   ssDatas.date = getWorldTime(+9);
 
-  ssDatas.save(function(err) {
-    if (err) {
-      console.error(err);
-      res.json({ resCode: 401, resMsg: "로그 저장 오류" });
+//   ssDatas.save(function(err) {
+//     if (err) {
+//       console.error(err);
+//       res.json({ resCode: 401, resMsg: "로그 저장 오류" });
 
-    } else {
-        res.json({ resCode: 200, resMsg: "OK" });
-    }
-  });
+//     } else {
+//         res.json({ resCode: 200, resMsg: "OK" });
+//     }
+//   });
   next();
 });
 
