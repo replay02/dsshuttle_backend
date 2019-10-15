@@ -135,18 +135,25 @@ function leadingZeros(n, digits) {
 }
 
 app.use(logger(":url"), function(req, res, next) {
-//   console.log("request api : " + req.originalUrl);
-  var ssDatas = new SsDatas();
-  ssDatas.apiUrl = req.originalUrl;
-  ssDatas.date = getWorldTime(+9);
-  ssDatas.save(function(err) {
-    if (err) {
-      console.error(err);
-    } else {
+  //   console.log("request api : " + req.originalUrl);
+  if (
+    req.originalUrl.startsWith("/ss/data") ||
+    req.originalUrl.startsWith("/ws/v1")
+  ) {
+    next();
+  } else {
+    var ssDatas = new SsDatas();
+    ssDatas.apiUrl = req.originalUrl;
+    ssDatas.date = getWorldTime(+9);
+    ssDatas.save(function(err) {
+      if (err) {
+        console.error(err);
+      } else {
         console.error("saved complete");
-    }
-  });
-  next();
+      }
+    });
+    next();
+  }
 });
 
 //아래와 같이 rest api 라우터를 분리한다. 주석

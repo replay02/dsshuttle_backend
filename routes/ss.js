@@ -559,6 +559,17 @@ module.exports = function(
   });
 
 
+  // 모든 로그 데이터 삭제 (테스트용)
+  router.delete("/data", function(req, res) {
+    SsDatas.remove({}, function(err, output) {
+      if (err) {
+        return res.status(500).json({ error: "database failure" });
+      }
+      res.json({ result: 1 });
+    });
+  });
+
+
   // 모든 사용자 가져오기 (테스트용)
   router.get("/user", function(req, res) {
     SsUser.find(function(err, infos) {
