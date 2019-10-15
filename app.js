@@ -134,11 +134,11 @@ function leadingZeros(n, digits) {
 app.use(logger(":url"), function(req, res, next) {
 //   console.log("request api : " + req.originalUrl);
 
-//   var ssDatas = new SsDatas();
-    SsDatas.apiUrl = req.originalUrl;
-    SsDatas.date = getWorldTime(+9);
+  var ssDatas = new SsDatas();
+  ssDatas.apiUrl = req.originalUrl;
+  ssDatas.date = getWorldTime(+9);
 
-    SsDatas.save(function(err) {
+  ssDatas.save(function(err) {
     if (err) {
       console.error(err);
       res.json({ resCode: 401, resMsg: "로그 저장 오류" });
