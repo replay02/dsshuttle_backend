@@ -560,7 +560,7 @@ module.exports = function(
     SsDatas.aggregate(
       [
         {$match: {date: req.body.date}},
-        {$group: {apiUrl: "$apiUrl", total:{$sum:1}}}
+        {$group: {_id: "$apiUrl", total:{$sum:1}}}
       ],function(err, infos) {
         if (err) {
           return res.status(500).send({ error: {err} });
