@@ -621,8 +621,9 @@ module.exports = function(
 
   // dayoung source add
 
-  router.get("/api/register/:token", function(req, res) {
-    console.log("server넘겨받은 토큰", req.params.token);
+  // 물품 보내기 
+  router.post("/api/sendStuff", function(req, res) {
+    console.log("server넘겨받은 토큰", req.body.token);
 
     const message = {
       data: {
@@ -638,7 +639,7 @@ module.exports = function(
           color: "#f45342"
         }
       },
-      token: req.params.token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
+      token: req.body.token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
     };
 
     admin
@@ -728,6 +729,7 @@ module.exports = function(
     });
   });
 
+  // 운반 물품 등록 시 회원 유효성 체크
   router.post("/api/checkPushUser", function(req, res) {
     SsUser.find({ name: req.body.name, phone: req.body.phone }, function(
       err,
@@ -813,7 +815,7 @@ module.exports = function(
 
   /* DELETE CONTENT
        delete from boardcontents where */
-  router.delete("/api/deleteBoardcontents/", function(req, res) {
+  router.delete("/api/deleteBoardcontents", function(req, res) {
     // )
     console.log("req.body._id : " + req.body._id);
     console.log("req.body.pwd : " + req.body.pwd);
@@ -862,20 +864,20 @@ module.exports = function(
   });
 
   // UPDATE THE BOOK
-  router.put("/api/boardcontents/:_id", function(req, res) {
-    Boardcontent.update(
-      { _id: req.params.content_id },
-      { $set: req.body },
-      function(err, output) {
-        if (err) res.status(500).json({ error: "database failure" });
-        console.log(output);
+  // router.put("/api/boardcontents/:_id", function(req, res) {
+  //   Boardcontent.update(
+  //     { _id: req.params.content_id },
+  //     { $set: req.body },
+  //     function(err, output) {
+  //       if (err) res.status(500).json({ error: "database failure" });
+  //       console.log(output);
 
-        if (!output.n)
-          return res.status(404).json({ error: "content not found" });
-        res.json({ message: "updated success" });
-      }
-    );
-  });
+  //       if (!output.n)
+  //         return res.status(404).json({ error: "content not found" });
+  //       res.json({ message: "updated success" });
+  //     }
+  //   );
+  // });
 
   return router; //라우터를 리턴
 };
