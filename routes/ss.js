@@ -551,7 +551,7 @@ module.exports = function(
 
 
   // 로그 데이터 가져오기 (테스트용)
-  router.get("/data", function(req, res) {
+  router.post("/data", function(req, res) {
 
     if(req.body.date) {
       
