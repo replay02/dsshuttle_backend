@@ -138,6 +138,7 @@ app.use(logger(":url"), function(req, res, next) {
   //   console.log("request api : " + req.originalUrl);
   if (
     req.originalUrl.startsWith("/ss/data") ||
+    req.originalUrl.startsWith("/ss/verify") ||
     // req.originalUrl.startsWith("/ws/v1") ||
     // req.originalUrl === '/'
     !req.originalUrl.startsWith("/ss/")

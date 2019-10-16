@@ -165,7 +165,7 @@ module.exports = function(
   });
 
   // 사용자 이메일 인증 후 관리자 승인 완료 처리
-  router.post("/api/confirmUser", function(req, res) {
+  router.post("/onm/confirmUser", function(req, res) {
     SsUser.update(
       { id: req.body.id },
       { $set: { register_confirm: true } },
@@ -551,7 +551,7 @@ module.exports = function(
 
 
   // 로그 데이터 가져오기 (테스트용)
-  router.post("/data", function(req, res) {
+  router.post("/onm/data", function(req, res) {
 
     if(req.body.date) {
       
@@ -581,7 +581,7 @@ module.exports = function(
 
 
   // 모든 로그 데이터 삭제 (테스트용)
-  router.delete("/data", function(req, res) {
+  router.delete("/onm/data", function(req, res) {
     SsDatas.remove({}, function(err, output) {
       if (err) {
         return res.status(500).json({ error: "database failure" });
@@ -592,7 +592,7 @@ module.exports = function(
 
 
   // 모든 사용자 가져오기 (테스트용)
-  router.get("/user", function(req, res) {
+  router.get("/onm/user", function(req, res) {
     SsUser.find(function(err, infos) {
       if (err) return res.status(500).send({ error: "database failure" });
       res.json(infos);
