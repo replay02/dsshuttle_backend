@@ -178,9 +178,11 @@ app.use(logger(":url"), function(req, res, next) {
     var ssDatas = new SsDatas();
     ssDatas.apiUrl = req.originalUrl;
     // ssDatas.date = makeDateOrTimeString(+9,0);
-    ssDatas.date = "2019-10-17";
+    // ssDatas.day = makeDateOrTimeString(+9,2);
+    ssDatas.date = "2019-10-17";  // for test
+    ssDatas.day = "THU";  // for test
     ssDatas.time = makeDateOrTimeString(+9,1);
-    ssDatas.day = makeDateOrTimeString(+9,2);
+    
     ssDatas.save(function(err) {
       if (err) {
         console.error(err);
