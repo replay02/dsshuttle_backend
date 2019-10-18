@@ -573,9 +573,17 @@ module.exports = function(
           $group: {
             _id: {
               day: "$day",
-              time: {$arrayElemAt:[{$split: ["$time" , ":"]}, 0]}
+              time: { $arrayElemAt: [{ $split: ["$time", ":"] }, 0] }
             },
             total: { $sum: 1 }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            day: "$_id.day",
+            time: "$_id.time",
+            total: "$total"
           }
         }
       ],
