@@ -95,31 +95,60 @@ var ssRouter = require("./routes/ss")(
 );
 
 // yhkim test
-
-// var fs = require('fs');
-// app.use(logger({
-//     format: 'dev',
-//     stream: fs.createWriteStream('app.log', {'flags': 'w'})
-//   }));
-
-function getWorldTime(tzOffset) {
+function makeDateOrTimeString(tzOffset,type) {
   // 24시간제
   var now = new Date();
   var tz = now.getTime() + now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
   now.setTime(tz);
+  var s;
 
-  var s =
+  // 0 : 년월일 "2019-10-01" 형태 
+  // 1: : 시간 "13:59:34" 형태
+  // 2: 요일 "MON" 형태
+  if(type == 0) {
+    s =
     leadingZeros(now.getFullYear(), 4) +
     "-" +
     leadingZeros(now.getMonth() + 1, 2) +
     "-" +
     leadingZeros(now.getDate(), 2);
-    // + " " +
-    // leadingZeros(now.getHours(), 2) +
-    // ":" +
-    // leadingZeros(now.getMinutes(), 2) +
-    // ":" +
-    // leadingZeros(now.getSeconds(), 2);
+
+  }
+  else if(type == 1){
+    s =
+    leadingZeros(now.getHours(), 2) +
+    ":" +
+    leadingZeros(now.getMinutes(), 2) +
+    ":" +
+    leadingZeros(now.getSeconds(), 2);
+  }
+  else {
+    switch (now.getDay()) {
+      case 0:
+        s = "SUN";
+        break;
+      case 1:
+        s = "MON";
+        break;
+      case 2:
+        s = "TUE";
+        break;
+      case 3:
+        s = "WED";
+        break;
+      case 4:
+        s = "THU";
+        break;
+      case 5:
+        s = "FRI";
+        break;
+      case 6:
+        s = "SAT";
+        break;
+      default:
+        s = "";
+    }
+  }
 
   return s;
 }
@@ -148,7 +177,9 @@ app.use(logger(":url"), function(req, res, next) {
   } else {
     var ssDatas = new SsDatas();
     ssDatas.apiUrl = req.originalUrl;
-    ssDatas.date = getWorldTime(+9);
+    ssDatas.date = makeDateOrTimeString(+9,0);
+    ssDatas.time = makeDateOrTimeString(+9,1);
+    ssDatas.day = makeDateOrTimeString(+9,2);
     ssDatas.save(function(err) {
       if (err) {
         console.error(err);

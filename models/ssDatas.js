@@ -3,8 +3,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ssDatasScheme = new Schema({
-    apiUrl: String,
-    date: String
+    apiUrl : String,
+    date : String,
+    time : String,
+    day : String
 });
 
 module.exports = mongoose.model('ssDatas', ssDatasScheme);

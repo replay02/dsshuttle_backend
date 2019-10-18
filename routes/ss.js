@@ -549,38 +549,60 @@ module.exports = function(
     });
   });
 
-
-
   router.get("/onm/apiTotalCnt", function(req, res) {
     SsDatas.aggregate(
       [
-        // {$match: {date: req.body.date}},  // "2019-10-01" 형태 
-        {$group: {_id: "$apiUrl", total:{$sum:1}}},
-        {$sort : { total : -1} }
-      ],function(err, infos) {
+        // {$match: {date: req.body.date}},  // "2019-10-01" 형태
+        { $group: { _id: "$apiUrl", total: { $sum: 1 } } },
+        { $sort: { total: -1 } }
+      ],
+      function(err, infos) {
         if (err) {
-          return res.status(500).send({ error: {err} });
+          return res.status(500).send({ error: { err } });
         }
         res.json(infos);
-      });
+      }
+    );
   });
 
+  router.get("/onm/apiDayTime", function(req, res) {
+    SsDatas.aggregate(
+      [
+        // {$match: {date: req.body.date}},  // "2019-10-01" 형태
+        {
+          $group: {
+            _id: {
+              day: "$day",
+              time: "$time"
+            },
+            total: { $sum: 1 }
+          }
+        }
+      ],
+      function(err, infos) {
+        if (err) {
+          return res.status(500).send({ error: { err } });
+        }
+        res.json(infos);
+      }
+    );
+  });
 
-
-  // api 사용 건수 가져오기 
+  // api 사용 건수 가져오기
   router.post("/onm/apiUseCnt", function(req, res) {
     SsDatas.aggregate(
       [
-        {$match: {date: req.body.date}},  // "2019-10-01" 형태 
-        {$group: {_id: "$apiUrl", total:{$sum:1}}}
-      ],function(err, infos) {
+        { $match: { date: req.body.date } }, // "2019-10-01" 형태
+        { $group: { _id: "$apiUrl", total: { $sum: 1 } } }
+      ],
+      function(err, infos) {
         if (err) {
-          return res.status(500).send({ error: {err} });
+          return res.status(500).send({ error: { err } });
         }
         res.json(infos);
-      });
+      }
+    );
   });
-
 
   // 모든 로그 데이터 삭제 (테스트용)
   router.delete("/onm/data", function(req, res) {
@@ -591,7 +613,6 @@ module.exports = function(
       res.json({ result: 1 });
     });
   });
-
 
   // 모든 사용자 가져오기 (테스트용)
   router.get("/onm/user", function(req, res) {
@@ -623,7 +644,7 @@ module.exports = function(
 
   // dayoung source add
 
-  // 물품 보내기 
+  // 물품 보내기
   router.post("/api/sendStuff", function(req, res) {
     console.log("server넘겨받은 토큰", req.body.token);
 
