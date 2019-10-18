@@ -555,7 +555,8 @@ module.exports = function(
     SsDatas.aggregate(
       [
         // {$match: {date: req.body.date}},  // "2019-10-01" 형태 
-        {$group: {_id: "$apiUrl", total:{$sum:1}}}
+        {$group: {_id: "$apiUrl", total:{$sum:1}}},
+        {$sort : { total : -1} }
       ],function(err, infos) {
         if (err) {
           return res.status(500).send({ error: {err} });
