@@ -573,7 +573,7 @@ module.exports = function(
           $group: {
             _id: {
               day: "$day",
-              time: { $split: [ "$time", ":" ][0] }
+              time: {$arrayElemAt:[{$split: ["$time" , ":"]}, 0]}
             },
             total: { $sum: 1 }
           }
