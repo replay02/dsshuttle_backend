@@ -550,16 +550,27 @@ module.exports = function(
   });
 
 
-  // api 사용 건수 데이터 가져오기 (테스트용)
-  router.post("/onm/apiUseCnt", function(req, res) {
 
-    if(req.body.date) {
-      
-    }
-
+  router.get("/onm/apiTotalCnt", function(req, res) {
     SsDatas.aggregate(
       [
-        {$match: {date: req.body.date}},
+        // {$match: {date: req.body.date}},  // "2019-10-01" 형태 
+        {$group: {_id: "$apiUrl", total:{$sum:1}}}
+      ],function(err, infos) {
+        if (err) {
+          return res.status(500).send({ error: {err} });
+        }
+        res.json(infos);
+      });
+  });
+
+
+
+  // api 사용 건수 가져오기 
+  router.post("/onm/apiUseCnt", function(req, res) {
+    SsDatas.aggregate(
+      [
+        {$match: {date: req.body.date}},  // "2019-10-01" 형태 
         {$group: {_id: "$apiUrl", total:{$sum:1}}}
       ],function(err, infos) {
         if (err) {
