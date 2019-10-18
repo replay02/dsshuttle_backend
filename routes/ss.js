@@ -550,8 +550,8 @@ module.exports = function(
   });
 
 
-  // 로그 데이터 가져오기 (테스트용)
-  router.post("/onm/data", function(req, res) {
+  // api 사용 건수 데이터 가져오기 (테스트용)
+  router.post("/onm/apiUseCnt", function(req, res) {
 
     if(req.body.date) {
       
@@ -565,18 +565,8 @@ module.exports = function(
         if (err) {
           return res.status(500).send({ error: {err} });
         }
-        
         res.json(infos);
       });
-
-    
-    // SsDatas.find({date:req.body.date},function(err, infos) {
-    //   if (err) {
-    //     return res.status(500).send({ error: "database failure" });
-    //   }
-      
-    //   res.json(infos);
-    // });
   });
 
 
