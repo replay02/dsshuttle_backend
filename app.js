@@ -177,12 +177,12 @@ app.use(logger(":url"), function(req, res, next) {
   } else {
     var ssDatas = new SsDatas();
     ssDatas.apiUrl = req.originalUrl;
-    // ssDatas.date = makeDateOrTimeString(+9,0);
-    // ssDatas.day = makeDateOrTimeString(+9,2);
-    // ssDatas.time = makeDateOrTimeString(+9,1);
-    ssDatas.date = "2019-10-16";  // for test
-    ssDatas.day = "WED";  // for test
-    ssDatas.time = "09:43:43";
+    ssDatas.date = makeDateOrTimeString(+9,0);
+    ssDatas.day = makeDateOrTimeString(+9,2);
+    ssDatas.time = makeDateOrTimeString(+9,1);
+    // ssDatas.date = "2019-10-16";  // for test
+    // ssDatas.day = "WED";  // for test
+    // ssDatas.time = "09:43:43";
     
     ssDatas.save(function(err) {
       if (err) {
