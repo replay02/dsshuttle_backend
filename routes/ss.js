@@ -638,30 +638,30 @@ module.exports = function(
     SsDatas.aggregate(
 
       [
-        { "$match": { 
+        { $match: { 
           _id: new ObjectId(req.id), 
-          "date": {
-            "$gte": getBeforeDate(+9,7)
+          date: {
+            $gte: getBeforeDate(+9,7)
           }
         }},
-        { "$unwind": "$parameter" },
+        { $unwind: "$parameter" },
         { 
-          "$group": {
-          "_id": { 
-              "_id" : "$parameter._id",
-              "date": "$parameter.date",
-              "apiUrl": "$parameter.apiUrl"
+          $group: {
+          _id: { 
+              _id : "$parameter._id",
+              date: "$parameter.date",
+              apiUrl: "$parameter.apiUrl"
           }, 
-          "total": { "$sum": 1 } 
+          total: { "$sum": 1 } 
         }},
         {
-            "$group": {
-                "_id": "$_id",
-                "date" : "$date",
-                "data": {
-                    "$push": {
-                        "apiUrl": "$apiUrl",
-                        "count": "$count"
+            $group: {
+                _id: "$_id",
+                date : "$date",
+                data: {
+                    $push: {
+                        apiUrl: "$apiUrl",
+                        count: "$count"
                     }
                 }
             }
