@@ -651,7 +651,7 @@ module.exports = function(
           }, 
           total: { $sum: 1 } 
         }},
-        { $unwind: "$parameter" },
+        { $unwind: {parameter:"$apiUrl"} },
         {
             $group: {
                 _id: "$parameter.date",
