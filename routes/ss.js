@@ -647,12 +647,13 @@ module.exports = function(
         { 
           $group: {
             _id : {date :"$date"},  
+            apiUrl:"$apiUrl",
             total: { $sum: 1 } 
         }},
-        {
-          $project: { datas: { $objectToArray: "$_id" }, total : 1 }
-        },
-        { $unwind: "$datas" }
+        // {
+        //   $project: { datas: { $objectToArray: "$_id" }, total : 1 }
+        // },
+        // { $unwind: "$datas" }
 
         // { $unwind: "$_id" },
         // {
