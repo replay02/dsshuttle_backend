@@ -634,17 +634,14 @@ module.exports = function(
   router.post("/onm/apiUseCntByDay", function(req, res) {
 
     var ObjectId = require('mongodb').ObjectID;
-    
+
     SsDatas.aggregate(
 
       [
         { "$match": { 
           _id: new ObjectId(req.id), 
           "date": {
-            "$gte": [
-              { "$dateFromString": { "dateString": "$dob", "format": "%Y-%m-%d" }},
-              "2019-10-17"
-            ]
+            "$gte": getBeforeDate(+9,7)
           }
         }},
         { "$unwind": "$parameter" },
