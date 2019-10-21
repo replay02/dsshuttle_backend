@@ -645,24 +645,25 @@ module.exports = function(
         }, 
         { 
           $group: {
-          _id: { 
+          _id : new ObjectID(req.id),  
+          data : { 
               date: "$date",
               apiUrl: "$apiUrl"
           }, 
           total: { $sum: 1 } 
         }},
-        { $unwind: {parameter:"$apiUrl"} },
-        {
-            $group: {
-                _id: "$parameter.date",
-                data: {
-                    $push: {
-                        apiUrl: "$parameter.apiUrl",
-                        total: "$parameter.total"
-                    }
-                }
-            }
-        }
+        // { $unwind: "$data" },
+        // {
+        //     $group: {
+        //         _id: "$parameter.date",
+        //         data: {
+        //             $push: {
+        //                 apiUrl: "$parameter.apiUrl",
+        //                 total: "$parameter.total"
+        //             }
+        //         }
+        //     }
+        // }
     ],
 
       // [
