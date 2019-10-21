@@ -13,6 +13,23 @@ admin.initializeApp({
   databaseURL: "https://dsshuttle-5a91e.firebaseio.com"
 });
 
+
+function getBeforeDate(tzOffset, beforeDayCnt) {
+  var now = new Date();
+  var tz = (now.getTime() - (beforeDayCnt+1) * 24 * 3600000)+ now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
+  now.setTime(tz);
+
+  var s =
+    leadingZeros(now.getFullYear(), 4) +
+    "-" +
+    leadingZeros(now.getMonth() + 1, 2) +
+    "-" +
+    leadingZeros(now.getDate(), 2);
+
+  return s;
+}
+
+
 function getWorldTime(tzOffset) {
   // 24시간제
   var now = new Date();
@@ -596,7 +613,7 @@ module.exports = function(
     );
   });
 
-  // api 사용 건수 가져오기
+  // api 사용 건수(단건) 가져오기
   router.post("/onm/apiUseCnt", function(req, res) {
     SsDatas.aggregate(
       [
@@ -611,6 +628,56 @@ module.exports = function(
       }
     );
   });
+
+
+  // api 사용 건수(복수) 가져오기
+  router.post("/onm/apiUseCntByDay", function(req, res) {
+    SsDatas.aggregate(
+
+      [
+        { "$match": { "_id": { $gt: getBeforeDate(+9,req.body.count)}}},
+        { "$unwind": "$data" },
+        {
+            "$group": {
+                "_id": {
+                    "apiUrl": "$data.apiUrl"
+                },
+                "doc_id": { "$first": "$_id" },
+                "count": { "$sum": 1 }
+            }
+        },
+        {
+            "$group": {
+                "_id": "$doc_id",
+                "data": {
+                    "$push": {
+                        "apiUrl": "$_id.apiUrl",
+                        "count": "$count"
+                    }
+                }
+            }
+        }
+    ],
+
+      // [
+      //   { $match: { 
+      //     $and: [ 
+      //       { date: { $gt: getBeforeDate(+9,req.body.count)} } 
+      //     ]
+      //    } }, // "2019-10-01" 형태
+      //   { $group: { _id: "$apiUrl", date :"&date", total: { $sum: 1 } } }
+      // ],
+      function(err, infos) {
+        if (err) {
+          return res.status(500).send({ error: { err } });
+        }
+        res.json(infos);
+      }
+    );
+  });
+
+
+  
 
   // 모든 로그 데이터 삭제 (테스트용)
   router.delete("/onm/data", function(req, res) {
@@ -893,22 +960,6 @@ module.exports = function(
       });
     });
   });
-
-  // UPDATE THE BOOK
-  // router.put("/api/boardcontents/:_id", function(req, res) {
-  //   Boardcontent.update(
-  //     { _id: req.params.content_id },
-  //     { $set: req.body },
-  //     function(err, output) {
-  //       if (err) res.status(500).json({ error: "database failure" });
-  //       console.log(output);
-
-  //       if (!output.n)
-  //         return res.status(404).json({ error: "content not found" });
-  //       res.json({ message: "updated success" });
-  //     }
-  //   );
-  // });
 
   return router; //라우터를 리턴
 };
