@@ -638,12 +638,11 @@ module.exports = function(
     SsDatas.aggregate(
 
       [
-        { $match: { 
-          date: {
-            $gte: "2019-10-17"
-          }
-        }}, 
-        
+        // { $match: 
+        //   { 
+        //     date: { $gte: "2019-10-17" }
+        //   }
+        // }, 
         { 
           $group: {
           _id: { 
