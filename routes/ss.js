@@ -643,14 +643,14 @@ module.exports = function(
             date: { $gte: "2019-10-17" }
           }
         }, 
-        // { 
-        //   $group: {
-        //   _id: { 
-        //       date: "$date",
-        //       apiUrl: "$apiUrl"
-        //   }, 
-        //   total: { "$sum": 1 } 
-        // }},
+        { 
+          $group: {
+          _id: { 
+              date: "$date",
+              apiUrl: "$apiUrl"
+          }, 
+          total: { $sum: 1 } 
+        }},
         // { $unwind: "$parameter" },
         // {
         //     $group: {
