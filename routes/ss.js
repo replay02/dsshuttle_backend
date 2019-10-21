@@ -638,31 +638,31 @@ module.exports = function(
     SsDatas.aggregate(
 
       [
-        // { $match: 
-        //   { 
-        //     date: { $gte: "2019-10-17" }
-        //   }
-        // }, 
-        { 
-          $group: {
-          _id: { 
-              date: "$date",
-              apiUrl: "$apiUrl"
-          }, 
-          total: { "$sum": 1 } 
-        }},
-        { $unwind: "$parameter" },
-        {
-            $group: {
-                _id: "$parameter.date",
-                data: {
-                    $push: {
-                        apiUrl: "$parameter.apiUrl",
-                        total: "$parameter.total"
-                    }
-                }
-            }
-        }
+        { $match: 
+          { 
+            date: { $gte: "2019-10-17" }
+          }
+        }, 
+        // { 
+        //   $group: {
+        //   _id: { 
+        //       date: "$date",
+        //       apiUrl: "$apiUrl"
+        //   }, 
+        //   total: { "$sum": 1 } 
+        // }},
+        // { $unwind: "$parameter" },
+        // {
+        //     $group: {
+        //         _id: "$parameter.date",
+        //         data: {
+        //             $push: {
+        //                 apiUrl: "$parameter.apiUrl",
+        //                 total: "$parameter.total"
+        //             }
+        //         }
+        //     }
+        // }
     ],
 
       // [
