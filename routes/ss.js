@@ -646,16 +646,21 @@ module.exports = function(
         }, 
         { 
           $group: {
-            _id : {date :"$date"},  
-            data: {
-                $push: {
-                  $group : {
-                    _id : "$apiUrl",
-                    total : {$sum:1}
-                  }
+            _id : {date :"$date", apiUrl:"$apiUrl"},  
+            total : {$sum:1}
+          }
+        },
+        {
+          $group : { 
+            _id :  "$_id.date",
+            datas: { 
+                $push: { 
+                    apiUrl:"$_id.apiUrl",
+                    total:"$total"
                 }
             }
-        }},
+         }
+        }
         // {
         //   $project: { datas: { $objectToArray: "$_id" }, total : 1 }
         // },
