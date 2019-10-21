@@ -651,18 +651,18 @@ module.exports = function(
           }, 
           total: { $sum: 1 } 
         }},
-        // { $unwind: "$parameter" },
-        // {
-        //     $group: {
-        //         _id: "$parameter.date",
-        //         data: {
-        //             $push: {
-        //                 apiUrl: "$parameter.apiUrl",
-        //                 total: "$parameter.total"
-        //             }
-        //         }
-        //     }
-        // }
+        { $unwind: "$parameter" },
+        {
+            $group: {
+                _id: "$parameter.date",
+                data: {
+                    $push: {
+                        apiUrl: "$parameter.apiUrl",
+                        total: "$parameter.total"
+                    }
+                }
+            }
+        }
     ],
 
       // [
