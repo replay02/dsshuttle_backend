@@ -638,6 +638,7 @@ module.exports = function(
     SsDatas.aggregate(
 
       [
+        
         { $match: 
           { 
             date: { $gte: getBeforeDate(+9,req.body.cnt) }
@@ -645,10 +646,14 @@ module.exports = function(
         }, 
         { 
           $group: {
-          _id : "$date",  
-          apiUrl: "$apiUrl",
+          _id : {date :"$date", apiUrl:"$apiUrl"},  
           total: { $sum: 1 } 
         }},
+        {
+          $project: { apiUrl:1, date : 1, datas: { $objectToArray: "$_id" } }
+        },
+        { $unwind: "$datas" }
+        
         // { $unwind: "$_id" },
         // {
         //     $group: {
