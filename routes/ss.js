@@ -16,7 +16,7 @@ admin.initializeApp({
 
 function getBeforeDate(tzOffset, beforeDayCnt) {
   var now = new Date();
-  var tz = (now.getTime() - (beforeDayCnt+1) * 24 * 3600000)+ now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
+  var tz = (now.getTime() - (beforeDayCnt-1) * 24 * 3600000)+ now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
   now.setTime(tz);
 
   var s =
