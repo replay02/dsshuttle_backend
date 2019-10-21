@@ -640,16 +640,14 @@ module.exports = function(
       [
         { $match: 
           { 
-            date: { $gte: getBeforeDate(+9,7) }
+            date: { $gte: getBeforeDate(+9,req.body.cnt) }
           }
         }, 
         { 
           $group: {
           _id : "$date",  
-          data : { 
-              apiUrl: "$apiUrl",
-              total: { $sum: 1 } 
-          }
+          apiUrl: "$apiUrl",
+          total: { $sum: 1 } 
         }},
         // { $unwind: "$_id" },
         // {
