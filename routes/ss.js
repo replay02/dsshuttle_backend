@@ -633,7 +633,7 @@ module.exports = function(
   // api 사용 건수(복수) 가져오기
   router.post("/onm/apiUseCntByDay", function(req, res) {
 
-    var ObjectId = require('mongodb').ObjectID;
+    // var ObjectId = require('mongodb').ObjectID;
 
     SsDatas.aggregate(
 
@@ -660,34 +660,11 @@ module.exports = function(
                 }
             }
          }
+        },
+        {
+          $sort: { _id: -1 }
         }
-        // {
-        //   $project: { datas: { $objectToArray: "$_id" }, total : 1 }
-        // },
-        // { $unwind: "$datas" }
-
-        // { $unwind: "$_id" },
-        // {
-        //     $group: {
-        //         _id: "$parameter.date",
-        //         data: {
-        //             $push: {
-        //                 apiUrl: "$parameter.apiUrl",
-        //                 total: "$parameter.total"
-        //             }
-        //         }
-        //     }
-        // }
     ],
-
-      // [
-      //   { $match: { 
-      //     $and: [ 
-      //       { date: { $gt: getBeforeDate(+9,req.body.count)} } 
-      //     ]
-      //    } }, // "2019-10-01" 형태
-      //   { $group: { _id: "$apiUrl", date :"&date", total: { $sum: 1 } } }
-      // ],
       function(err, infos) {
         if (err) {
           return res.status(500).send({ error: { err } });
