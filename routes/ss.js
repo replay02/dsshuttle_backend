@@ -649,8 +649,10 @@ module.exports = function(
             _id : {date :"$date"},  
             data: {
                 $push: {
-                    apiUrl: "$apiUrl",
-                    total: {$sum: 1}
+                  $group : {
+                    _id : "$apiUrl",
+                    total : {$sum:1}
+                  }
                 }
             }
         }},
