@@ -635,28 +635,32 @@ module.exports = function(
     SsDatas.aggregate(
 
       [
-        { "$match": { "date": {
-          "$gte": [
-            { "$dateFromString": { "dateString": "$dob", "format": "%Y-%m-%d" }},
-            "2019-10-17"
-          ]}
+        { "$match": { 
+          _id: new ObjectId(req.id), 
+          "date": {
+            "$gte": [
+              { "$dateFromString": { "dateString": "$dob", "format": "%Y-%m-%d" }},
+              "2019-10-17"
+            ]
+          }
         }},
-        { "$unwind": "$data" },
+        { "$unwind": "$parameter" },
+        { 
+          "$group": {
+          "_id": { 
+              "_id" : "$parameter._id",
+              "date": "$parameter.date",
+              "apiUrl": "$parameter.apiUrl"
+          }, 
+          "total": { "$sum": 1 } 
+        }},
         {
             "$group": {
-                "_id": {
-                    "apiUrl": "$data.apiUrl"
-                },
-                "doc_id": { "$first": "$date" },
-                "count": { "$sum": 1 }
-            }
-        },
-        {
-            "$group": {
-                "_id": "$doc_id",
+                "_id": "$_id",
+                "date" : "$date",
                 "data": {
                     "$push": {
-                        "apiUrl": "$date.apiUrl",
+                        "apiUrl": "$apiUrl",
                         "count": "$count"
                     }
                 }
