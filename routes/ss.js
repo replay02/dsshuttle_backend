@@ -645,7 +645,7 @@ module.exports = function(
         }, 
         { 
           $group: {
-          _id : new ObjectID(req.id),  
+          _id : new ObjectId(req.id),  
           data : { 
               date: "$date",
               apiUrl: "$apiUrl"
