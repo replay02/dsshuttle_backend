@@ -639,29 +639,27 @@ module.exports = function(
 
       [
         { $match: { 
-          _id: new ObjectId(req.id), 
           date: {
             $gte: getBeforeDate(+9,7)
           }
-        }},
-        { $unwind: "$parameter" },
+        }}, 
+        
         { 
           $group: {
           _id: { 
-              _id : "$parameter._id",
               date: "$parameter.date",
               apiUrl: "$parameter.apiUrl"
           }, 
           total: { "$sum": 1 } 
         }},
+        { $unwind: "$parameter" },
         {
             $group: {
-                _id: "$_id",
-                date : "$date",
+                _id: "$parameter.date",
                 data: {
                     $push: {
-                        apiUrl: "$apiUrl",
-                        count: "$count"
+                        apiUrl: "$parameter.apiUrl",
+                        total: "$parameter.total"
                     }
                 }
             }
