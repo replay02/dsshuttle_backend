@@ -648,7 +648,7 @@ module.exports = function(
           $group: {
           _id: { 
               date: "$date",
-              apiUrl: "apiUrl"
+              apiUrl: "$apiUrl"
           }, 
           total: { "$sum": 1 } 
         }},
