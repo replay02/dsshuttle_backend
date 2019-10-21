@@ -645,14 +645,14 @@ module.exports = function(
         }, 
         { 
           $group: {
-          _id : new ObjectId(req.id),  
-          data : { 
+          // _id : new ObjectId(req.id),  
+          _id : { 
               date: "$date",
               apiUrl: "$apiUrl"
-          }, 
+          },
           total: { $sum: 1 } 
         }},
-        // { $unwind: "$data" },
+        { $unwind: "$_id" },
         // {
         //     $group: {
         //         _id: "$parameter.date",
