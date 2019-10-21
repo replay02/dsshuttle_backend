@@ -635,7 +635,12 @@ module.exports = function(
     SsDatas.aggregate(
 
       [
-        { "$match": { "date": { $gt: getBeforeDate(+9,req.body.count)}}},
+        { "$match": { "date": {
+          "$gte": [
+            { "$dateFromString": { "dateString": "$dob", "format": "%Y-%m-%d" }},
+            "2019-10-17"
+          ]}
+        }},
         { "$unwind": "$data" },
         {
             "$group": {
