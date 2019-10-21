@@ -632,6 +632,9 @@ module.exports = function(
 
   // api 사용 건수(복수) 가져오기
   router.post("/onm/apiUseCntByDay", function(req, res) {
+
+    var ObjectId = require('mongodb').ObjectID;
+    
     SsDatas.aggregate(
 
       [
