@@ -635,14 +635,14 @@ module.exports = function(
     SsDatas.aggregate(
 
       [
-        { "$match": { "_id": { $gt: getBeforeDate(+9,req.body.count)}}},
+        { "$match": { "date": { $gt: getBeforeDate(+9,req.body.count)}}},
         { "$unwind": "$data" },
         {
             "$group": {
                 "_id": {
                     "apiUrl": "$data.apiUrl"
                 },
-                "doc_id": { "$first": "$_id" },
+                "doc_id": { "$first": "$date" },
                 "count": { "$sum": 1 }
             }
         },
@@ -651,7 +651,7 @@ module.exports = function(
                 "_id": "$doc_id",
                 "data": {
                     "$push": {
-                        "apiUrl": "$_id.apiUrl",
+                        "apiUrl": "$date.apiUrl",
                         "count": "$count"
                     }
                 }
