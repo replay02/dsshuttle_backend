@@ -6,11 +6,11 @@ const crypto = require("crypto");
 var sha256 = require("../Utils/sha256");
 
 const admin = require("firebase-admin");
-const serviceAccount = require("./dsshuttle-5a91e-934487e6ffed.json");
+const serviceAccount = require("./dsshuttlepush-firebase-adminsdk-c41x4-893fb133cf.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://dsshuttle-5a91e.firebaseio.com"
+  // databaseURL: "https://dsshuttle-5a91e.firebaseio.com"
 });
 
 
@@ -730,7 +730,7 @@ module.exports = function(
         priority: "high",
 
         notification: {
-          title: "Ktds 사송 운반 물품 알림",
+          title: "KT DS 사송 운반 물품 알림",
           body: "회원님께 사송 운반 물품이 배송 될 예정입니다.",
           color: "#f45342"
         }
