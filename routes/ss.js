@@ -6,7 +6,7 @@ const crypto = require("crypto");
 var sha256 = require("../Utils/sha256");
 
 const admin = require("firebase-admin");
-const serviceAccount = require("./dsshuttlepush-firebase-adminsdk-c41x4-893fb133cf.json");
+const serviceAccount = require("./dsshuttlepush-firebase-adminsdk-c41x4-04d4ff6952.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
