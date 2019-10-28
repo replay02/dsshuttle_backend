@@ -722,14 +722,14 @@ module.exports = function(
     console.log("server넘겨받은 토큰", req.body.token);
 
     const message = {
-      data: {
-        title: "KT DS 사송 운반 물품 알림",
-        body: "회원님께 사송 운반 물품이 배송 될 예정입니다."
-      },
-      // notification : {
+      // data: {
       //   title: "KT DS 사송 운반 물품 알림",
       //   body: "회원님께 사송 운반 물품이 배송 될 예정입니다."
       // },
+      notification : {
+        title: "KT DS 사송 운반 물품 알림",
+        body: "회원님께 사송 운반 물품이 배송 될 예정입니다."
+      },
       // android: {
       //   ttl: 3600 * 1000, // 1 hour in milliseconds
       //   priority: "high",
