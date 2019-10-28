@@ -723,18 +723,22 @@ module.exports = function(
 
     const message = {
       data: {
-        type: "register"
+        title: "KT DS 사송 운반 물품 알림",
+        body: "회원님께 사송 운반 물품이 배송 될 예정입니다."
       },
-      android: {
-        ttl: 3600 * 1000, // 1 hour in milliseconds
-        priority: "high",
-
-        notification: {
-          title: "KT DS 사송 운반 물품 알림",
-          body: "회원님께 사송 운반 물품이 배송 될 예정입니다.",
-          color: "#f45342"
-        }
+      notification : {
+        title: "KT DS 사송 운반 물품 알림",
+        body: "회원님께 사송 운반 물품이 배송 될 예정입니다."
       },
+      // android: {
+      //   ttl: 3600 * 1000, // 1 hour in milliseconds
+      //   priority: "high",
+      //   notification: {
+      //     title: "KT DS 사송 운반 물품 알림",
+      //     body: "회원님께 사송 운반 물품이 배송 될 예정입니다.",
+      //     color: "#f45342"
+      //   }
+      // },
       token: req.body.token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
     };
 
