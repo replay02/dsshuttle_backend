@@ -721,27 +721,26 @@ module.exports = function(
   router.post("/api/sendStuff", function(req, res) {
     console.log("server넘겨받은 토큰", req.body.token);
 
-    let time = req.body.time;     // not null
-    let stuffs = req.body.stuffs;  // nullable
-    let sendText = req.body.sendText; // nullable
+    // let time = req.body.time;     // not null
+    // let stuffs = req.body.stuffs;  // nullable
+    // let sendText = req.body.sendText; // nullable
 
-
-    let msg = "%a시 사송으로 물품이 배송 될 예정 입니다.".replace("%a",time);
-    if(stuffs.length > 0) {
-      msg += "\n물품:%a".replace("%a",stuffs);
+    let msg = "%a시 사송으로 물품이 배송 될 예정 입니다.".replace("%a",req.body.time);
+    if(req.body.stuffs) {
+      msg += "\n물품:%a".replace("%a",req.body.stuffs);
     }
-    if(sendText.length > 0) {
-      msg += "\n보낸메시지:%a".replace("%a",sendText);
+    if(req.body.sendText) {
+      msg += "\n보낸메시지:%a".replace("%a",req.body.sendText);
     }
 
     const message = {
       data: {
         title: "사송 운반 물품 알림",
-        body: message
+        body: msg
       },
       notification : {
         title: "사송 운반 물품 알림",
-        body: message
+        body: msg
       },
       // android: {
       //   ttl: 3600 * 1000, // 1 hour in milliseconds
