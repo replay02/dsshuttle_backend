@@ -727,7 +727,7 @@ module.exports = function(
       }
       console.log("userInfos : " + userInfos);
 
-      let msg = "%b님이 보내신 물품을 %s시 %a 사송으로 전달 예정 입니다."
+      let msg = "%b님이 보내신 물품을 %s시 출발하는 %a 사송편으로 전달 예정입니다."
         .replace("%b", userInfos.name)
         .replace("%s", req.body.time)
         .replace("%a", req.body.location);
