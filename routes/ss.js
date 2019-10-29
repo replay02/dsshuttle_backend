@@ -727,10 +727,10 @@ module.exports = function(
 
     let msg = "%a시 사송으로 물품이 배송 될 예정 입니다.".replace("%a",req.body.time);
     if(req.body.stuffs) {
-      msg += "\n물품:%a".replace("%a",req.body.stuffs);
+      msg += "\n보낸 물품 : %a".replace("%a",req.body.stuffs);
     }
     if(req.body.sendText) {
-      msg += "\n보낸메시지:%a".replace("%a",req.body.sendText);
+      msg += "\n보낸메시지 : %a".replace("%a",req.body.sendText);
     }
 
     const message = {
@@ -758,7 +758,7 @@ module.exports = function(
       .messaging()
       .send(message)
       .then(response => {
-        console.log("successfully sent message:", response);
+        console.log("successfully sent message:", message);
         res.json({
           resCode: 200,
           resMsg: "수신자에게 Push알림이 발송되었습니다."
