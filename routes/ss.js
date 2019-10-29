@@ -726,12 +726,12 @@ module.exports = function(
     let sendText = req.body.sendText; // nullable
 
 
-    let message = "%a시 사송으로 물품이 배송 될 예정 입니다.".replace("%a",time);
+    let msg = "%a시 사송으로 물품이 배송 될 예정 입니다.".replace("%a",time);
     if(stuffs.length > 0) {
-      message += "\n물품:%a".replace("%a",stuffs);
+      msg += "\n물품:%a".replace("%a",stuffs);
     }
     if(sendText.length > 0) {
-      message += "\n보낸메시지:%a".replace("%a",sendText);
+      msg += "\n보낸메시지:%a".replace("%a",sendText);
     }
 
     const message = {
