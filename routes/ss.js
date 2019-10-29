@@ -721,14 +721,18 @@ module.exports = function(
   router.post("/api/sendStuff", function(req, res) {
     console.log("server넘겨받은 토큰", req.body.token);
 
+    let stuffs = req.body.stuffs;
+
+    var my_string = sprintf("회원님께 사송 운반 물품(%s)이(가) 배송 될 예정 입니다.", stuffs);
+
     const message = {
-      // data: {
-      //   title: "KT DS 사송 운반 물품 알림",
-      //   body: "회원님께 사송 운반 물품이 배송 될 예정입니다."
-      // },
+      data: {
+        title: "사송 운반 물품 알림",
+        body: my_string
+      },
       notification : {
-        title: "KT DS 사송 운반 물품 알림",
-        body: "회원님께 사송 운반 물품이 배송 될 예정입니다."
+        title: "사송 운반 물품 알림",
+        body: my_string
       },
       // android: {
       //   ttl: 3600 * 1000, // 1 hour in milliseconds
