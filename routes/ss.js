@@ -9,14 +9,17 @@ const admin = require("firebase-admin");
 const serviceAccount = require("./dsshuttlepush-firebase-adminsdk-c41x4-04d4ff6952.json");
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccount)
   // databaseURL: "https://dsshuttle-5a91e.firebaseio.com"
 });
 
-
 function getBeforeDate(tzOffset, beforeDayCnt) {
   var now = new Date();
-  var tz = (now.getTime() - (beforeDayCnt-1) * 24 * 3600000)+ now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
+  var tz =
+    now.getTime() -
+    (beforeDayCnt - 1) * 24 * 3600000 +
+    now.getTimezoneOffset() * 60000 +
+    tzOffset * 3600000;
   now.setTime(tz);
 
   var s =
@@ -28,7 +31,6 @@ function getBeforeDate(tzOffset, beforeDayCnt) {
 
   return s;
 }
-
 
 function getWorldTime(tzOffset) {
   // 24시간제
@@ -629,42 +631,38 @@ module.exports = function(
     );
   });
 
-
   // api 사용 건수(복수) 가져오기
   router.post("/onm/apiUseCntByDay", function(req, res) {
-
     // var ObjectId = require('mongodb').ObjectID;
 
     SsDatas.aggregate(
-
       [
-        
-        { $match: 
-          { 
-            date: { $gte: getBeforeDate(+9,req.body.cnt) }
-          }
-        }, 
-        { 
-          $group: {
-            _id : {date :"$date", apiUrl:"$apiUrl"},  
-            total : {$sum:1}
+        {
+          $match: {
+            date: { $gte: getBeforeDate(+9, req.body.cnt) }
           }
         },
         {
-          $group : { 
-            _id :  "$_id.date",
-            datas: { 
-                $push: { 
-                    apiUrl:"$_id.apiUrl",
-                    total:"$total"
-                }
+          $group: {
+            _id: { date: "$date", apiUrl: "$apiUrl" },
+            total: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: "$_id.date",
+            datas: {
+              $push: {
+                apiUrl: "$_id.apiUrl",
+                total: "$total"
+              }
             }
-         }
+          }
         },
         {
           $sort: { _id: -1 }
         }
-    ],
+      ],
       function(err, infos) {
         if (err) {
           return res.status(500).send({ error: { err } });
@@ -673,9 +671,6 @@ module.exports = function(
       }
     );
   });
-
-
-  
 
   // 모든 로그 데이터 삭제 (테스트용)
   router.delete("/onm/data", function(req, res) {
@@ -721,52 +716,64 @@ module.exports = function(
   router.post("/api/sendStuff", function(req, res) {
     console.log("server넘겨받은 토큰", req.body.token);
 
-    // let time = req.body.time;     // not null
-    // let stuffs = req.body.stuffs;  // nullable
-    // let sendText = req.body.sendText; // nullable
+    SsUser.find({ login_token: req.body.fromToken }, function(err, userInfos) {
+      if (err) {
+        res.json({ resCode: 500, resMsg: err });
+        return;
+      }
+      if (!userInfos || userInfos.length === 0) {
+        res.json({ resCode: 202, resMsg: "토큰이 유효하지 않습니다." });
+        return;
+      }
+      console.log("userInfos : " + userInfos);
 
-    let msg = "%a시 사송으로 물품이 배송 될 예정 입니다.".replace("%a",req.body.time);
-    if(req.body.stuffs) {
-      msg += "\n보낸 물품 : %a".replace("%a",req.body.stuffs);
-    }
-    if(req.body.sendText) {
-      msg += "\n보낸메시지 : %a".replace("%a",req.body.sendText);
-    }
+      let msg = "%b님이 보내신 물품을 %s시 %a 사송으로 전달 예정 입니다."
+        .replace("%b", userInfos[0].name)
+        .replace("%s", req.body.time)
+        .replace("%a", req.body.location);
 
-    const message = {
-      data: {
-        title: "사송 운반 물품 알림",
-        body: msg
-      },
-      notification : {
-        title: "사송 운반 물품 알림",
-        body: msg
-      },
-      // android: {
-      //   ttl: 3600 * 1000, // 1 hour in milliseconds
-      //   priority: "high",
-      //   notification: {
-      //     title: "KT DS 사송 운반 물품 알림",
-      //     body: "회원님께 사송 운반 물품이 배송 될 예정입니다.",
-      //     color: "#f45342"
-      //   }
-      // },
-      token: req.body.token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
-    };
+      if (req.body.stuffs) {
+        msg += "\n보낸 물품 : %a".replace("%a", req.body.stuffs);
+      }
+      if (req.body.sendText) {
+        msg += "\n보낸메시지 : %a".replace("%a", req.body.sendText);
+      }
 
-    admin
-      .messaging()
-      .send(message)
-      .then(response => {
-        console.log("successfully sent message:", message);
-        res.json({
-          resCode: 200,
-          resMsg: "수신자에게 Push알림이 발송되었습니다."
+      const message = {
+        data: {
+          title: "사송 운반 물품 알림",
+          body: msg
+        },
+        notification: {
+          title: "사송 운반 물품 알림",
+          body: msg
+        },
+        // android: {
+        //   ttl: 3600 * 1000, // 1 hour in milliseconds
+        //   priority: "high",
+        //   notification: {
+        //     title: "KT DS 사송 운반 물품 알림",
+        //     body: "회원님께 사송 운반 물품이 배송 될 예정입니다.",
+        //     color: "#f45342"
+        //   }
+        // },
+        token: req.body.token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
+      };
+
+      admin
+        .messaging()
+        .send(message)
+        .then(response => {
+          console.log("successfully sent message:", message);
+          res.json({
+            resCode: 200,
+            resMsg: "수신자에게 Push알림이 발송되었습니다."
+          });
+        })
+        .catch(error => {
+          console.log("error sending message:", error);
         });
-      })
-      .catch(error => {
-        console.log("error sending message:", error);
-      });
+    });
   });
 
   router.get("/api/receive/:token", function(req, res) {
