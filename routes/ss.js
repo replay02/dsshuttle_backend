@@ -723,16 +723,14 @@ module.exports = function(
 
     let stuffs = req.body.stuffs;
 
-    var my_string = sprintf("회원님께 사송 운반 물품(%s)이(가) 배송 될 예정 입니다.", stuffs);
-
     const message = {
       data: {
         title: "사송 운반 물품 알림",
-        body: my_string
+        body: "회원님께 사송 운반 물품(%s)이(가) 배송 될 예정 입니다.".replace("%s",stuffs)
       },
       notification : {
         title: "사송 운반 물품 알림",
-        body: my_string
+        body: "회원님께 사송 운반 물품(%s)이(가) 배송 될 예정 입니다.".replace("%s",stuffs)
       },
       // android: {
       //   ttl: 3600 * 1000, // 1 hour in milliseconds
