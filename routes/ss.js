@@ -527,7 +527,7 @@ module.exports = function(
   });
 
   // 모든 사송 시간표 가져옴
-  router.get("/api/shuttleTimes", function(req, res) {
+  router.get("/api/getSasongList", function(req, res) {
     ShuttleTimes.find(function(err, infos) {
       if (err) return res.status(500).send({ error: "database failure" });
       res.json(infos);
@@ -535,7 +535,7 @@ module.exports = function(
   });
 
   // 사송 시간표 입력
-  router.post("/api/shuttleTimes", function(req, res) {
+  router.post("/onm/saveSasongList", function(req, res) {
     var shuttleTimes = new ShuttleTimes();
 
     for (var i = 0; i < req.body.bangbae.length; i++) {
@@ -688,6 +688,32 @@ module.exports = function(
       if (err) return res.status(500).send({ error: "database failure" });
       res.json(infos);
     });
+  });
+
+  // 사송 시간표 입력
+  router.post("/onm/saveSasongList", function(req, res) {
+    var boardcontent = new Boardcontent();
+
+    boardcontent.writer = req.body.writer;
+    boardcontent.password = req.body.password;
+    //boardcontent.date = new Date(req.body.date);
+    boardcontent.content = req.body.content;
+
+    console.log("kny", req.body.writer);
+    console.log("kny", req.body.password);
+    //console.log("kny", new Date(req.body.date));
+    console.log("kny", req.body.content);
+
+    boardcontent.save(function(err) {
+      //데이터를 데이터베이스에 저장
+      if (err) {
+        console.error(err);
+        res.json({ result: 0 });
+        return;
+      }
+      res.json({ resCode: 200, resMsg: "OK", contentId: boardcontent._id });
+    });
+    //res.json(boardcontents);
   });
 
   // 모든 사송 시간 삭제 (테스트용)
