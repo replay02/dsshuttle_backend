@@ -526,8 +526,17 @@ module.exports = function(
     });
   });
 
-  // 모든 사송 시간표 가져옴
+  // App 에서 모든 사송 시간표 가져옴
   router.get("/api/getSasongList", function(req, res) {
+    ShuttleTimes.find(function(err, infos) {
+      if (err) return res.status(500).send({ error: "database failure" });
+      res.json(infos);
+    });
+  });
+
+
+  // onm 에서 모든 사송 시간표 가져옴
+  router.get("/onm/getSasongList", function(req, res) {
     ShuttleTimes.find(function(err, infos) {
       if (err) return res.status(500).send({ error: "database failure" });
       res.json(infos);
