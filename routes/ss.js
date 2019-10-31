@@ -538,7 +538,7 @@ module.exports = function(
   router.post("/onm/saveSasongList", function(req, res) {
 
 
-    ShuttleTimes.remove({}, function(err, output) {
+    ShuttleTimes.deleteMany({}, function(err, output) {
       if (err) {
         return res.status(500).json({ error: "database failure" });
       }
