@@ -530,7 +530,7 @@ module.exports = function(
   router.get("/api/getSasongList", function(req, res) {
     ShuttleTimes.find(function(err, infos) {
       if (err) return res.status(500).send({ error: "database failure" });
-      res.json(infos);
+      res.json({ resCode: 200, resMsg: "사송 시간표 정상", resData:infos });
     });
   });
 
