@@ -536,27 +536,36 @@ module.exports = function(
 
   // 사송 시간표 입력
   router.post("/onm/saveSasongList", function(req, res) {
-    var shuttleTimes = new ShuttleTimes();
 
-    for (var i = 0; i < req.body.bangbae.length; i++) {
-      shuttleTimes.bangbae.push({
-        title: req.body.bangbae[i].title,
-        isAvailable: req.body.bangbae[i].isAvailable
-      });
-    }
-    for (var i = 0; i < req.body.bundang.length; i++) {
-      shuttleTimes.bundang.push({
-        title: req.body.bundang[i].title,
-        isAvailable: req.body.bundang[i].isAvailable
-      });
-    }
-    shuttleTimes.save(function(err) {
+
+    ShuttleTimes.remove({}, function(err, output) {
       if (err) {
-        console.error(err);
-        res.json({ result: 0 });
-        return;
+        return res.status(500).json({ error: "database failure" });
       }
-      res.json({ result: 1 });
+
+      var shuttleTimes = new ShuttleTimes();
+
+      for (var i = 0; i < req.body.bangbae.length; i++) {
+        shuttleTimes.bangbae.push({
+          title: req.body.bangbae[i].title,
+          isAvailable: req.body.bangbae[i].isAvailable
+        });
+      }
+      for (var i = 0; i < req.body.bundang.length; i++) {
+        shuttleTimes.bundang.push({
+          title: req.body.bundang[i].title,
+          isAvailable: req.body.bundang[i].isAvailable
+        });
+      }
+      shuttleTimes.save(function(err) {
+        if (err) {
+          console.error(err);
+          res.json({ resCode: 201, resMsg: "사송 시간표 입력 오류" });
+          return;
+        }
+        res.json({ resCode: 200, resMsg: "사송 시간표 입력 완료" });
+      });
+
     });
   });
 
