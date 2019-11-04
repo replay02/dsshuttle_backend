@@ -533,7 +533,7 @@ module.exports = function(
        return res.status(500).send({ error: "database failure" });
       }
       var now = new Date();
-      var tz = now.getTime() + now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
+      var tz = now.getTime() + now.getTimezoneOffset() * 60000 + 9 * 3600000;
       now.setTime(tz);
 
       var day = now.getDay();
