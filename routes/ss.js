@@ -538,7 +538,7 @@ module.exports = function(
 
       var day = now.getDay();
 
-      res.json({ resCode: 200, resMsg: "사송 시간표 정상", resData:infos[0][day] });
+      res.json({ resCode: 200, resMsg: "사송 시간표 정상", resData:infos });
     });
   });
 
