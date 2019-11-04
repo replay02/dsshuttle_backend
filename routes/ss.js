@@ -536,9 +536,34 @@ module.exports = function(
       var tz = now.getTime() + now.getTimezoneOffset() * 60000 + 9 * 3600000;
       now.setTime(tz);
 
-      var day = now.getDay();
+      var s;
+      switch (now.getDay()) {
+        case 0:
+          s = "SUN";
+          break;
+        case 1:
+          s = "MON";
+          break;
+        case 2:
+          s = "TUE";
+          break;
+        case 3:
+          s = "WED";
+          break;
+        case 4:
+          s = "THU";
+          break;
+        case 5:
+          s = "FRI";
+          break;
+        case 6:
+          s = "SAT";
+          break;
+        default:
+          s = "";
+      }
 
-      res.json({ resCode: 200, resMsg: "사송 시간표 정상", resData:infos });
+      res.json({ resCode: 200, resMsg: "사송 시간표 정상", resData:infos[0][s] });
     });
   });
 
