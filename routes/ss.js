@@ -554,18 +554,108 @@ module.exports = function(
 
       var shuttleTimes = new ShuttleTimes();
 
-      for (var i = 0; i < req.body.bangbae.length; i++) {
-        shuttleTimes.bangbae.push({
-          title: req.body.bangbae[i].title,
-          isAvailable: req.body.bangbae[i].isAvailable
+      let dayData = req.body.SUN;
+      for (var i = 0; i < dayData.bangbae.length; i++) {
+        shuttleTimes.SUN.bangbae.push({
+          title: dayData.bangbae[i].title,
+          isAvailable: dayData.bangbae[i].isAvailable
         });
       }
-      for (var i = 0; i < req.body.bundang.length; i++) {
-        shuttleTimes.bundang.push({
-          title: req.body.bundang[i].title,
-          isAvailable: req.body.bundang[i].isAvailable
+      for (var i = 0; i < dayData.bundang.length; i++) {
+        shuttleTimes.SUN.bundang.push({
+          title: dayData.bundang[i].title,
+          isAvailable: dayData.bundang[i].isAvailable
         });
       }
+
+      dayData = req.body.MON;
+      for (var i = 0; i < dayData.bangbae.length; i++) {
+        shuttleTimes.MON.bangbae.push({
+          title: dayData.bangbae[i].title,
+          isAvailable: dayData.bangbae[i].isAvailable
+        });
+      }
+      for (var i = 0; i < dayData.bundang.length; i++) {
+        shuttleTimes.MON.bundang.push({
+          title: dayData.bundang[i].title,
+          isAvailable: dayData.bundang[i].isAvailable
+        });
+      }
+
+      dayData = req.body.TUE;
+      for (var i = 0; i < dayData.bangbae.length; i++) {
+        shuttleTimes.TUE.bangbae.push({
+          title: dayData.bangbae[i].title,
+          isAvailable: dayData.bangbae[i].isAvailable
+        });
+      }
+      for (var i = 0; i < dayData.bundang.length; i++) {
+        shuttleTimes.TUE.bundang.push({
+          title: dayData.bundang[i].title,
+          isAvailable: dayData.bundang[i].isAvailable
+        });
+      }
+
+      dayData = req.body.WED;
+      for (var i = 0; i < dayData.bangbae.length; i++) {
+        shuttleTimes.WED.bangbae.push({
+          title: dayData.bangbae[i].title,
+          isAvailable: dayData.bangbae[i].isAvailable
+        });
+      }
+      for (var i = 0; i < dayData.bundang.length; i++) {
+        shuttleTimes.WED.bundang.push({
+          title: dayData.bundang[i].title,
+          isAvailable: dayData.bundang[i].isAvailable
+        });
+      }
+
+      dayData = req.body.THU;
+      for (var i = 0; i < dayData.bangbae.length; i++) {
+        shuttleTimes.THU.bangbae.push({
+          title: dayData.bangbae[i].title,
+          isAvailable: dayData.bangbae[i].isAvailable
+        });
+      }
+      for (var i = 0; i < dayData.bundang.length; i++) {
+        shuttleTimes.THU.bundang.push({
+          title: dayData.bundang[i].title,
+          isAvailable: dayData.bundang[i].isAvailable
+        });
+      }
+
+      dayData = req.body.FRI;
+      for (var i = 0; i < dayData.bangbae.length; i++) {
+        shuttleTimes.FRI.bangbae.push({
+          title: dayData.bangbae[i].title,
+          isAvailable: dayData.bangbae[i].isAvailable
+        });
+      }
+      for (var i = 0; i < dayData.bundang.length; i++) {
+        shuttleTimes.FRI.bundang.push({
+          title: dayData.bundang[i].title,
+          isAvailable: dayData.bundang[i].isAvailable
+        });
+      }
+
+      dayData = req.body.SAT;
+      for (var i = 0; i < dayData.bangbae.length; i++) {
+        shuttleTimes.SAT.bangbae.push({
+          title: dayData.bangbae[i].title,
+          isAvailable: dayData.bangbae[i].isAvailable
+        });
+      }
+      for (var i = 0; i < dayData.bundang.length; i++) {
+        shuttleTimes.SAT.bundang.push({
+          title: dayData.bundang[i].title,
+          isAvailable: dayData.bundang[i].isAvailable
+        });
+      }
+
+
+
+
+
       shuttleTimes.save(function(err) {
         if (err) {
           console.error(err);
