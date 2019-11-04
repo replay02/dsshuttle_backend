@@ -554,6 +554,8 @@ module.exports = function(
 
       var shuttleTimes = new ShuttleTimes();
 
+      console.log("saveSasongList's req data = " + req.body);
+
       let dayData = req.body.SUN;
       for (var i = 0; i < dayData.bangbae.length; i++) {
         shuttleTimes.SUN.bangbae.push({
