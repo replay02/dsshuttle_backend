@@ -529,8 +529,15 @@ module.exports = function(
   // App 에서 모든 사송 시간표 가져옴
   router.get("/api/getSasongList", function(req, res) {
     ShuttleTimes.find(function(err, infos) {
-      if (err) return res.status(500).send({ error: "database failure" });
-      res.json({ resCode: 200, resMsg: "사송 시간표 정상", resData:infos });
+      if (err) {
+       return res.status(500).send({ error: "database failure" });
+      }
+      var now = new Date();
+      var tz = now.getTime() + now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
+      now.setTime(tz);
+
+      var day = now.getDay();
+      res.json({ resCode: 200, resMsg: "사송 시간표 정상", resData:infos[day] });
     });
   });
 
