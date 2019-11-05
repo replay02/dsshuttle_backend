@@ -1090,7 +1090,7 @@ module.exports = function(
   // onm에서 게시글 삭제
   router.delete("/onm/deleteFreeBoard", function(req, res) {
     
-    console.log("req.body : " + req.body.toString());
+    console.log("req.body : " + req.toString());
     console.log("req.body.ids : " + req.body.ids[0]);
     let idArrays = [];
     for(let data of req.body.ids) {
