@@ -1051,6 +1051,8 @@ module.exports = function(
 
   /* CREATE NEW CONTENT
        insert into boardcontents value ... */
+
+
   router.post("/api/saveBoardcontents", function(req, res) {
     var boardcontent = new Boardcontent();
 
@@ -1084,6 +1086,35 @@ module.exports = function(
       res.json({ result: 1 });
     });
   });
+
+  // onm에서 게시글 삭제
+  router.delete("/onm/deleteFreeBoard", function(req, res) {
+    // )
+    console.log("req.body._id : " + req.body.ids);
+
+    // var id = new mongodb.ObjectID(req.body._id);
+
+    let idArrays = [];
+
+    for(let data of req.body.ids) {
+      var id = new mongodb.ObjectID(data);
+      idArrays.push(id);
+    }
+
+    Boardcontent.deleteMany({'_id':{'$in':idArrays}}, function(err, infos) {
+      if (err) {
+        res.json({ resCode: 500, resMsg: "게시글 삭제 실패" });
+        return;
+      }
+      if (!infos || infos.length === 0) {
+        res.json({ resCode: 202, resMsg: "해당 게시글이 존재하지 않습니다" });
+        return;
+      }
+      console.log("infos : " + infos);
+      res.json({ resCode: 200, resMsg: "게시글이 모두 삭제 되었습니다." });
+    });
+  });
+
 
   /* DELETE CONTENT
        delete from boardcontents where */
