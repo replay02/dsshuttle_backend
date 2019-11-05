@@ -1017,9 +1017,17 @@ module.exports = function(
 
   // nayoung add
 
-  /* GET ALL CONTENTS
-       select * from boardcontents */
+  // 게시판 글 조회 (user)
   router.get("/api/boardcontents", function(req, res) {
+    Boardcontent.find(function(err, boardcontents) {
+      //데이터 조회
+      if (err) return res.status(500).send({ error: "database failure" });
+      res.json(boardcontents);
+    });
+  });
+
+  // 게시판 글 조회 (onm)
+  router.get("/onm/boardcontents", function(req, res) {
     Boardcontent.find(function(err, boardcontents) {
       //데이터 조회
       if (err) return res.status(500).send({ error: "database failure" });
