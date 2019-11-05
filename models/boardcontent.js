@@ -10,7 +10,7 @@ var boardcontentSchema = new Schema({
      */
      writer : String,
      //password : Mixed, //혼합
-     password : Number,
+     password : String,
      //date : { type: Date, default: Date.now },
      //date : Date,
      content : String
