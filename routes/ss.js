@@ -1090,7 +1090,8 @@ module.exports = function(
   // onm에서 게시글 삭제
   router.delete("/onm/deleteFreeBoard", function(req, res) {
     
-    console.log("req.body.ids : " + req.body.ids);
+    console.log("req.body : " + req.body);
+    console.log("req.body.ids : " + req.body.ids[0]);
     let idArrays = [];
     for(let data of req.body.ids) {
       var id = new mongodb.ObjectID(data);
@@ -1098,7 +1099,7 @@ module.exports = function(
     }
     console.log("idArrays : " + idArrays);
 
-    Boardcontent.remove({_id:{$in:idArrays}}, function(err, infos) {
+    Boardcontent.deleteMany({_id:{$in:idArrays}}, function(err, infos) {
       if (err) {
         res.json({ resCode: 500, resMsg: "게시글 삭제 실패" });
         return;
