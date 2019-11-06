@@ -861,9 +861,9 @@ module.exports = function(
   router.post("/api/sendStuff", function(req, res) {
     console.log("받는 사람 로그인 토큰", req.body.token);
 
-    SsUser.find({ login_token: req.body.token }, function(err, receiveUser) {
-      if (err) {
-        res.json({ resCode: 500, resMsg: err });
+    SsUser.find({ login_token: req.body.token }, function(errors, receiveUser) {
+      if (errors) {
+        res.json({ resCode: 500, resMsg: errors });
         return;
       }
       if (!receiveUser || receiveUser.length === 0) {
