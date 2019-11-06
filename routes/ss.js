@@ -71,7 +71,8 @@ module.exports = function(
   ShuttleTimes,
   SsUser,
   Boardcontent,
-  SsDatas
+  SsDatas,
+  SsNotification
 ) {
   // <------ yhkim 추가 시작 ------->
   var express = require("express");
@@ -855,73 +856,117 @@ module.exports = function(
 
   // dayoung source add
 
+
   // 물품 보내기
   router.post("/api/sendStuff", function(req, res) {
-    console.log("server넘겨받은 토큰", req.body.token);
+    console.log("받는 사람 로그인 토큰", req.body.token);
 
-    SsUser.find({ login_token: req.body.fromToken }, function(err, userInfos) {
+    SsUser.find({ login_token: req.body.token }, function(err, receiveUser) {
       if (err) {
         res.json({ resCode: 500, resMsg: err });
         return;
       }
       if (!userInfos || userInfos.length === 0) {
-        res.json({ resCode: 202, resMsg: "토큰이 유효하지 않습니다." });
+        res.json({ resCode: 203, resMsg: "수신자 토큰이 유효하지 않습니다." });
         return;
       }
-      console.log("userInfos : " + userInfos);
 
-      let msg = "%bb님이 보내신 물품을 %s시 출발하는 %a 사송편으로 전달 예정입니다."
-        .replace("%bb", userInfos[0].name)
-        .replace("%s", req.body.time)
-        .replace("%a", req.body.location);
+      console.log("받는 사람 : " + receiveUser[0].name);
 
-      if (req.body.stuffs) {
-        msg += "\n보낸 물품 : %a".replace("%a", req.body.stuffs);
-      }
-      if (req.body.sendText) {
-        msg += "\n보낸메시지 : %a".replace("%a", req.body.sendText);
-      }
+      SsUser.find({ login_token: req.body.fromToken }, function(err, userInfos) {
+        if (err) {
+          res.json({ resCode: 500, resMsg: err });
+          return;
+        }
+        if (!userInfos || userInfos.length === 0) {
+          res.json({ resCode: 202, resMsg: "송신자 토큰이 유효하지 않습니다." });
+          return;
+        }
+        console.log("보내는 사람 : " + userInfos[0].name);
+  
+        let msg = "%bb님이 %cc님께 보내신 물품을 %s시 출발하는 %a 사송편으로 전달 예정입니다."
+          .replace("%bb", userInfos[0].name)
+          .replace("%cc", receiveUser[0].name)
+          .replace("%s", req.body.time)
+          .replace("%a", req.body.location);
+  
+        if (req.body.stuffs) {
+          msg += "\n보낸 물품 : %a".replace("%a", req.body.stuffs);
+        }
+        if (req.body.sendText) {
+          msg += "\n보낸메시지 : %a".replace("%a", req.body.sendText);
+        }
+  
+        const message = {
+          data: {
+            title: "사송 운반 물품 알림",
+            body: msg
+          },
+          notification: {
+            title: "사송 운반 물품 알림",
+            body: msg
+          },
+          token: req.body.token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
+        };
+  
+        admin
+          .messaging()
+          .send(message)
+          .then(response => {
+            console.log("successfully sent message:", message);
+  
+            var noti = new SsNotification();
 
-      const message = {
-        data: {
-          title: "사송 운반 물품 알림",
-          body: msg
-        },
-        notification: {
-          title: "사송 운반 물품 알림",
-          body: msg
-        },
-        // android: {
-        //   ttl: 3600 * 1000, // 1 hour in milliseconds
-        //   priority: "high",
-        //   notification: {
-        //     title: "KT DS 사송 운반 물품 알림",
-        //     body: "회원님께 사송 운반 물품이 배송 될 예정입니다.",
-        //     color: "#f45342"
-        //   }
-        // },
-        token: req.body.token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
-      };
+            noti.to = receiveUser[0].id;
+            noti.from = userInfos[0].id;
+            noti.message = msg;
 
-      admin
-        .messaging()
-        .send(message)
-        .then(response => {
-          console.log("successfully sent message:", message);
-          res.json({
-            resCode: 200,
-            resMsg: "수신자에게 Push알림이 발송되었습니다."
+            noti.save(function(err) {
+              if (err) {
+                console.error(err);
+                // res.json({ result: 0 });
+                // return;
+              }
+              console.log("notification save complete");
+            });
+            
+            res.json({
+              resCode: 200,
+              resMsg: "수신자에게 Push알림이 발송되었습니다."
+            });
+          })
+          .catch(error => {
+            console.log("error sending message:", error);
+            res.json({
+              resCode: 201,
+              resMsg: "Push알림 발송을 실패 했습니다. 관리자에게 문의 하세요."
+            });
           });
-        })
-        .catch(error => {
-          console.log("error sending message:", error);
-          res.json({
-            resCode: 201,
-            resMsg: "Push알림 발송을 실패 했습니다. 관리자에게 문의 하세요."
-          });
-        });
+      });
     });
   });
+
+
+  // 푸시 알림 조회
+  router.post("/api/getPushNoti", function(req, res) {
+
+    SsUser.find({ login_token: req.body.login_token },function(err, user) {
+      //데이터 조회
+      if (err) return res.status(500).send({ error: "find user database failure" });
+
+      if (!user || user.length === 0) {
+        res.json({ resCode: 201, resMsg: "해당 유저가 존재하지 않습니다" });
+        return;
+      }
+
+      SsNotification.find({ to: user[0].id },function(err, noti) {
+        //데이터 조회
+        if (err) return res.status(500).send({ error: "get noti database failure" });
+        res.json(noti);
+      });
+    });
+  });
+
 
   router.get("/api/receive/:token", function(req, res) {
     console.log("server넘겨받은 토큰", req.params.token);
@@ -1079,7 +1124,7 @@ module.exports = function(
       }
       res.json({ resCode: 200, resMsg: "OK", contentId: boardcontent._id });
     });
-    //res.json(boardcontents);
+
   });
 
   /* DELETE ALL CONTENT

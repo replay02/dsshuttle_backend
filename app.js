@@ -12,6 +12,8 @@ var smtpPool = require("nodemailer-smtp-pool");
 
 var logger = require("morgan");
 var SsDatas = require("./models/ssDatas");
+var SsNotification = require("./models/ssNotification");
+
 
 //var fcm = require('fcm-node');
 
@@ -91,7 +93,8 @@ var ssRouter = require("./routes/ss")(
   ShuttleTimes,
   SsUser,
   Boardcontent,
-  SsDatas
+  SsDatas,
+  SsNotification
 );
 
 // yhkim test
