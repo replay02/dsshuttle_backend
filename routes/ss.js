@@ -915,6 +915,10 @@ module.exports = function(
         })
         .catch(error => {
           console.log("error sending message:", error);
+          res.json({
+            resCode: 201,
+            resMsg: "Push알림 발송을 실패 했습니다. 관리자에게 문의 하세요."
+          });
         });
     });
   });
