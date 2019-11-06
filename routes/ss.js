@@ -866,7 +866,7 @@ module.exports = function(
         res.json({ resCode: 500, resMsg: err });
         return;
       }
-      if (!userInfos || userInfos.length === 0) {
+      if (!receiveUser || receiveUser.length === 0) {
         res.json({ resCode: 203, resMsg: "수신자 토큰이 유효하지 않습니다." });
         return;
       }
