@@ -963,7 +963,7 @@ module.exports = function(
 
       console.log("push noti 조회 사용자 id :", user[0].id);
 
-      SsNotification.find({  },function(err, noti) {
+      SsNotification.find({ login_token: req.body.login_token},function(err, noti) {
         //데이터 조회
         if (err) return res.status(500).send({ error: "get noti database failure" });
         res.json(noti);
