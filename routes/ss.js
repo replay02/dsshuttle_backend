@@ -1072,22 +1072,26 @@ module.exports = function(
 
   // 게시판 글 조회 (user)
   router.get("/api/boardcontents", function(req, res) {
+    var mysort = { _id: -1 };
+
     Boardcontent.find(function(err, boardcontents) {
       //데이터 조회
       if (err) return res.status(500).send({ error: "database failure" });
       res.json(boardcontents);
-    });
+    }).sort(mysort);
   });
 
   // 게시판 글 조회 (onm)
   router.get("/onm/getFreeBoard", function(req, res) {
+    var mysort = { _id: -1 };
+
     Boardcontent.find(function(err, boardcontents) {
       //데이터 조회
       if (err) {
         return res.status(500).send({ error: "database failure" });
       }
       res.json(boardcontents);
-    }).sort(-1);
+    }).sort(mysort);
   });
 
   /* GET MAX(content_id)
