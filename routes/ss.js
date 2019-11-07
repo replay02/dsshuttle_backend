@@ -866,12 +866,14 @@ module.exports = function(
         res.json({ resCode: 500, resMsg: errors });
         return;
       }
+
+      console.log("받는 사람 : " + receiveUser);
+
       if (!receiveUser || receiveUser.length === 0) {
-        res.json({ resCode: 203, resMsg: "수신자 토큰이 유효하지 않습니다." });
+        console.log("수신자 Push토큰이 유효하지 않습니다." );
+        res.json({ resCode: 203, resMsg: "수신자 Push토큰이 유효하지 않습니다." });
         return;
       }
-      console.log("받는 사람 : " + receiveUser);
-      // console.log("받는 사람 : " + receiveUser[0].name);
 
       SsUser.find({ login_token: req.body.fromToken }, function(err, userInfos) {
         if (err) {
@@ -879,7 +881,7 @@ module.exports = function(
           return;
         }
         if (!userInfos || userInfos.length === 0) {
-          res.json({ resCode: 202, resMsg: "송신자 토큰이 유효하지 않습니다." });
+          res.json({ resCode: 202, resMsg: "송신자 로그인 토큰이 유효하지 않습니다." });
           return;
         }
         console.log("보내는 사람 : " + userInfos[0].name);
