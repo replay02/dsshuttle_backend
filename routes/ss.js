@@ -960,6 +960,8 @@ module.exports = function(
         res.json({ resCode: 201, resMsg: "해당 유저가 존재하지 않습니다" });
         return;
       }
+      console.log("push noti 조회 사용자 :", user);
+      console.log("push noti 조회 사용자 id :", user[0].id);
 
       SsNotification.find({ to: user[0].id },function(err, noti) {
         //데이터 조회
