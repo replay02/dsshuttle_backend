@@ -861,7 +861,7 @@ module.exports = function(
   router.post("/api/sendStuff", function(req, res) {
     console.log("받는 사람 로그인 토큰", req.body.token);
 
-    SsUser.find({ push_token: req.body.token }, function(errors, receiveUser) {
+    SsUser.find({ id: req.body.toId }, function(errors, receiveUser) {
       if (errors) {
         res.json({ resCode: 500, resMsg: errors });
         return;
@@ -1064,7 +1064,7 @@ module.exports = function(
       }
       console.log("userInfos : " + userInfos);
 
-      res.json({ resCode: 200, resData: userInfos[0].push_token });
+      res.json({ resCode: 200, resData: userInfos[0] });
     });
   });
 
@@ -1087,7 +1087,7 @@ module.exports = function(
         return res.status(500).send({ error: "database failure" });
       }
       res.json(boardcontents);
-    });
+    }).sort(-1);
   });
 
   /* GET MAX(content_id)
