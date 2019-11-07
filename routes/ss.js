@@ -966,7 +966,7 @@ module.exports = function(
       SsNotification.find({ to: user[0].id},function(err, noti) {
         //데이터 조회
         if (err) return res.status(500).send({ error: "get noti database failure" });
-        res.json(noti);
+        res.json({ resCode: 200, resMsg: "OK", resData : noti });
       });
     });
   });
