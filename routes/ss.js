@@ -972,6 +972,25 @@ module.exports = function(
   });
 
 
+  // 푸시 알림 삭제
+  router.post("/api/deletePushNoti", function(req, res) {
+    
+    var id = new mongodb.ObjectID(req.body._id);
+
+    SsNotification.deleteOne({ _id: id },function(err, data) {
+      //데이터 조회
+      if (err) return res.status(500).send({ error: "find user database failure" });
+
+      if (!data || data.length === 0) {
+        res.json({ resCode: 202, resMsg: "삭제할 데이터가 없습니다" });
+        return;
+      }
+
+      res.json({ resCode: 200, resMsg: "OK", resData : data });
+    });
+  });
+
+
   router.get("/api/receive/:token", function(req, res) {
     console.log("server넘겨받은 토큰", req.params.token);
 
