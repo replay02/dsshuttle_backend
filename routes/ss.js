@@ -949,6 +949,73 @@ module.exports = function(
   });
 
 
+  // 물품 수신 응답 보내기
+  router.post("/api/replyStuff", function(req, res) {
+    console.log("받는 사람 id", req.body.to);
+
+    SsUser.find({ id: req.body.to }, function(errors, receiveUser) {
+      if (errors) {
+        res.json({ resCode: 500, resMsg: errors });
+        return;
+      }
+
+      console.log("받는 사람 : " + receiveUser);
+
+      if (!receiveUser || receiveUser.length === 0) {
+        console.log("수신자 사번이 유효하지 않습니다." );
+        res.json({ resCode: 203, resMsg: "수신자 사번이 유효하지 않습니다." });
+        return;
+      }
+
+      SsUser.find({ id : req.body.from }, function(err, userInfos) {
+        if (err) {
+          res.json({ resCode: 500, resMsg: err });
+          return;
+        }
+        if (!userInfos || userInfos.length === 0) {
+          res.json({ resCode: 202, resMsg: "송신자 사번이 유효하지 않습니다." });
+          return;
+        }
+        console.log("보내는 사람 : " + userInfos[0].name);
+  
+        
+      let msg = "회원님이 사송편에 보내신 물품을 %cc님이 안전하게 받았습니다."
+        .replace("%cc", userInfos[0].name)
+  
+        const message = {
+          data: {
+            title: "사송 운반 물품 알림",
+            body: msg
+          },
+          notification: {
+            title: "사송 운반 물품 알림",
+            body: msg
+          },
+          token: receiveUser[0].push_token //토큰 값을 라우트로 받아서 해당 토큰에 메세지를 push하는 기능 수행
+        };
+  
+        admin
+          .messaging()
+          .send(message)
+          .then(response => {
+            console.log("successfully sent message:", message);
+  
+            res.json({
+              resCode: 200,
+              resMsg: "응답 Push알림이 발송되었습니다."
+            });
+          })
+          .catch(error => {
+            console.log("error sending message:", error);
+            res.json({
+              resCode: 201,
+              resMsg: "Push알림 발송을 실패 했습니다. 관리자에게 문의 하세요."
+            });
+          });
+      });
+    });
+  });
+
   // 푸시 알림 조회
   router.post("/api/getPushNoti", function(req, res) {
 
