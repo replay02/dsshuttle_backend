@@ -1004,6 +1004,19 @@ module.exports = function(
               resCode: 200,
               resMsg: "응답 Push알림이 발송되었습니다."
             });
+
+            var id = new mongodb.ObjectID(req.body._id);
+            SsNotification.deleteOne({ _id: id },function(e, data) {
+              //데이터 조회
+              if (e) return res.status(500).send({ error: "find user database failure" });
+        
+              if (!data || data.length === 0) {
+                console.log("응답Push 발송은 완료 하였으나 삭제할 Push 데이터가 존재하지 않습니다.");
+                return;
+              }
+        
+              console.log("응답Push 발송은 완료 후 Push데이터 삭제 완료");
+            });
           })
           .catch(error => {
             console.log("error sending message:", error);
