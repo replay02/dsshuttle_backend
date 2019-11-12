@@ -199,6 +199,23 @@ app.use("/push", pushRouter);
 app.use("/smtp", mailRouter);
 app.use("/ss", ssRouter);
 
+
+var WebSocketServer = require("ws").Server;
+
+var server = app.listen(3001, function () {
+  //listening
+})
+var wss = new WebSocketServer({
+  server
+});
+wss.on("connection", function(ws) {
+  ws.send("Hello! I am a server.");
+  ws.on("message", function(message) {
+    console.log("Received: %s", message);
+  });
+});
+
+
 // // [RUN SERVER]
 // var server = app.listen(port, function() {
 //   console.log("Express server has started on port " + port);
