@@ -16,7 +16,8 @@ var SsNotification = require("./models/ssNotification");
 
 
 var webSocket = require("./routes/webSocket");
-app.use("/realtime", webSocket);
+webSocket();
+
 
 //var fcm = require('fcm-node');
 
