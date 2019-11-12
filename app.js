@@ -14,10 +14,14 @@ var logger = require("morgan");
 var SsDatas = require("./models/ssDatas");
 var SsNotification = require("./models/ssNotification");
 
-import * as http from 'http';
+import * as http from "http";
 const server = http.createServer(app);
 var WebSocketServer = require("ws").Server;
-var wss = new WebSocketServer({ server:server, port: 3001, path:"/realtime" });
+var wss = new WebSocketServer({
+  server: server,
+  port: 3001,
+  path: "/realtime"
+});
 wss.on("connection", function(ws) {
   ws.send("Hello! I am a server.");
   ws.on("message", function(message) {
@@ -25,6 +29,7 @@ wss.on("connection", function(ws) {
   });
 });
 
+app.use(server);
 
 //var fcm = require('fcm-node');
 
@@ -109,34 +114,31 @@ var ssRouter = require("./routes/ss")(
 );
 
 // yhkim test
-function makeDateOrTimeString(tzOffset,type) {
+function makeDateOrTimeString(tzOffset, type) {
   // 24시간제
   var now = new Date();
   var tz = now.getTime() + now.getTimezoneOffset() * 60000 + tzOffset * 3600000;
   now.setTime(tz);
   var s;
 
-  // 0 : 년월일 "2019-10-01" 형태 
+  // 0 : 년월일 "2019-10-01" 형태
   // 1: : 시간 "13:59:34" 형태
   // 2: 요일 "MON" 형태
-  if(type == 0) {
+  if (type == 0) {
     s =
-    leadingZeros(now.getFullYear(), 4) +
-    "-" +
-    leadingZeros(now.getMonth() + 1, 2) +
-    "-" +
-    leadingZeros(now.getDate(), 2);
-
-  }
-  else if(type == 1){
+      leadingZeros(now.getFullYear(), 4) +
+      "-" +
+      leadingZeros(now.getMonth() + 1, 2) +
+      "-" +
+      leadingZeros(now.getDate(), 2);
+  } else if (type == 1) {
     s =
-    leadingZeros(now.getHours(), 2) +
-    ":" +
-    leadingZeros(now.getMinutes(), 2) +
-    ":" +
-    leadingZeros(now.getSeconds(), 2);
-  }
-  else {
+      leadingZeros(now.getHours(), 2) +
+      ":" +
+      leadingZeros(now.getMinutes(), 2) +
+      ":" +
+      leadingZeros(now.getSeconds(), 2);
+  } else {
     switch (now.getDay()) {
       case 0:
         s = "SUN";
@@ -182,7 +184,6 @@ app.use(logger(":url"), function(req, res, next) {
   if (
     req.originalUrl.startsWith("/ss/onm/") ||
     req.originalUrl.startsWith("/ss/verify") ||
-
     // req.originalUrl.startsWith("/ws/v1") ||
     // req.originalUrl === '/'
     !req.originalUrl.startsWith("/ss/")
@@ -191,13 +192,13 @@ app.use(logger(":url"), function(req, res, next) {
   } else {
     var ssDatas = new SsDatas();
     ssDatas.apiUrl = req.originalUrl;
-    ssDatas.date = makeDateOrTimeString(+9,0);
-    ssDatas.day = makeDateOrTimeString(+9,2);
-    ssDatas.time = makeDateOrTimeString(+9,1);
+    ssDatas.date = makeDateOrTimeString(+9, 0);
+    ssDatas.day = makeDateOrTimeString(+9, 2);
+    ssDatas.time = makeDateOrTimeString(+9, 1);
     // ssDatas.date = "2019-10-16";  // for test
     // ssDatas.day = "WED";  // for test
     // ssDatas.time = "09:43:43";
-    
+
     ssDatas.save(function(err) {
       if (err) {
         console.error(err);
@@ -219,5 +220,3 @@ app.use("/ss", ssRouter);
 // var server = app.listen(port, function() {
 //   console.log("Express server has started on port " + port);
 // });
-
-
