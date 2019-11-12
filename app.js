@@ -13,35 +13,25 @@ var smtpPool = require("nodemailer-smtp-pool");
 var logger = require("morgan");
 var SsDatas = require("./models/ssDatas");
 var SsNotification = require("./models/ssNotification");
-
+// [CONFIGURE SERVER PORT]
+var port = process.env.PORT || 8088;
 //var fcm = require('fcm-node');
 
 app.use(cors());
+
+
+
+
+var expressWs = require("express-ws")(app); 
+var webso = require("./routes/ws"); 
+app.use("/realtime",webso); 
+app.listen(3000); 
+
 
 // [CONFIGURE APP TO USE bodyParser]
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-
-
-var WebSocketServer = require("ws").Server;
-// [CONFIGURE SERVER PORT]
-var port = process.env.PORT || 8088;
-
-var server = app.listen(port, function () {
-  //listening
-})
-var wss = new WebSocketServer({
-  server : server,
-  path : "/WebsocketHome/realtime"
-});
-wss.on("connection", function(ws) {
-  ws.send("Hello! I am a server.");
-  ws.on("message", function(message) {
-    console.log("Received: %s", message);
-  });
-});
 
 
 
