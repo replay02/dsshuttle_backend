@@ -14,11 +14,6 @@ var logger = require("morgan");
 var SsDatas = require("./models/ssDatas");
 var SsNotification = require("./models/ssNotification");
 
-
-var webSocket = require("./routes/webSocket");
-webSocket();
-
-
 //var fcm = require('fcm-node');
 
 app.use(cors());
