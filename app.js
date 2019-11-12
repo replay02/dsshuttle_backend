@@ -202,7 +202,7 @@ app.use("/ss", ssRouter);
 
 var WebSocketServer = require("ws").Server;
 
-var server = app.listen(3001, function () {
+var server = app.listen(port, function () {
   //listening
 })
 var wss = new WebSocketServer({
