@@ -34,7 +34,7 @@ var server = app.listen(port, function () {
 })
 var wss = new WebSocketServer({
   server : server,
-  path : "/realtime"
+  path : "/WebsocketHome/realtime"
 });
 wss.on("connection", function(ws) {
   ws.send("Hello! I am a server.");
