@@ -24,6 +24,29 @@ app.use(bodyParser.json());
 
 
 
+
+var WebSocketServer = require("ws").Server;
+// [CONFIGURE SERVER PORT]
+var port = process.env.PORT || 3000;
+
+var server = app.listen(port, function () {
+  //listening
+})
+var wss = new WebSocketServer({
+  server
+});
+wss.on("connection", function(ws) {
+  ws.send("Hello! I am a server.");
+  ws.on("message", function(message) {
+    console.log("Received: %s", message);
+  });
+});
+
+
+
+
+
+
 // [ CONFIGURE mongoose ] start
 
 // CONNECT TO MONGODB SERVER
@@ -82,8 +105,8 @@ var pushServerKey = severConfig.pushSeverkey;
 //   SmtpPool,
 //   KarforuInfo
 // );
-var pushRouter = require("./routes/push")(app, pushServerKey);
-var mailRouter = require("./routes/smtp")(app, SmtpPool, KarforuInfo);
+// var pushRouter = require("./routes/push")(app, pushServerKey);
+// var mailRouter = require("./routes/smtp")(app, SmtpPool, KarforuInfo);
 var ssRouter = require("./routes/ss")(
   app,
   SmtpPool,
@@ -194,27 +217,10 @@ app.use(logger(":url"), function(req, res, next) {
 
 //아래와 같이 rest api 라우터를 분리한다. 주석
 // app.use("/", indexRouter);
-app.use("/push", pushRouter);
-app.use("/smtp", mailRouter);
+// app.use("/push", pushRouter);
+// app.use("/smtp", mailRouter);
 app.use("/ss", ssRouter);
 
-
-var WebSocketServer = require("ws").Server;
-// [CONFIGURE SERVER PORT]
-var port = process.env.PORT || 3000;
-
-var server = app.listen(port, function () {
-  //listening
-})
-var wss = new WebSocketServer({
-  server
-});
-wss.on("connection", function(ws) {
-  ws.send("Hello! I am a server.");
-  ws.on("message", function(message) {
-    console.log("Received: %s", message);
-  });
-});
 
 
 // // [RUN SERVER]
