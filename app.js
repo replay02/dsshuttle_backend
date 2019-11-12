@@ -14,22 +14,9 @@ var logger = require("morgan");
 var SsDatas = require("./models/ssDatas");
 var SsNotification = require("./models/ssNotification");
 
-import * as http from "http";
-const server = http.createServer(app);
-var WebSocketServer = require("ws").Server;
-var wss = new WebSocketServer({
-  server: server,
-  port: 3001,
-  path: "/realtime"
-});
-wss.on("connection", function(ws) {
-  ws.send("Hello! I am a server.");
-  ws.on("message", function(message) {
-    console.log("Received: %s", message);
-  });
-});
 
-app.use(server);
+var webSocket = require("./routes/webSocket");
+app.use("/realtime", webSocket);
 
 //var fcm = require('fcm-node');
 
