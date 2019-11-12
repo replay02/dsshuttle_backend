@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 
 var WebSocketServer = require("ws").Server;
 // [CONFIGURE SERVER PORT]
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8088;
 
 var server = app.listen(port, function () {
   //listening
@@ -64,17 +64,12 @@ mongoose.connect("mongodb://localhost/karforu");
 
 // CONNECT TO MONGODB SERVER after DEFINE MODEL
 //var Book = require('./models/book');
-var DriveInfo = require("./models/driveInfo");
-var KarforuInfo = require("./models/karforuInfo");
+// var DriveInfo = require("./models/driveInfo");
+// var KarforuInfo = require("./models/karforuInfo");
 
-// yhkim 추가 셔틀 시간표
 var ShuttleTimes = require("./models/shuttleTimes");
-// yhkim 추가 셔틀/사송 회원정보
 var SsUser = require("./models/ssUser");
-
-// nayoung add
 var Boardcontent = require("./models/boardcontent");
-
 var SmtpPool = smtpPool({
   service: severConfig.mailservice,
   host: "localhost",
@@ -93,8 +88,8 @@ var SmtpPool = smtpPool({
   maxConnections: 5,
   maxMessages: 10
 });
-
 var pushServerKey = severConfig.pushSeverkey;
+
 // [CONFIGURE ROUTER]
 //라우터에서 사용되는 모델 또는 설정값, 메시징규격 등을 전달한다.
 //var router = require('./routes')(app, DriveInfo, SmtpPool, pushServerKey, KarforuInfo);
