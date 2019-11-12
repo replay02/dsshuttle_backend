@@ -22,8 +22,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// [CONFIGURE SERVER PORT]
-var port = process.env.PORT || 8088;
+
 
 // [ CONFIGURE mongoose ] start
 
@@ -194,13 +193,15 @@ app.use(logger(":url"), function(req, res, next) {
 });
 
 //아래와 같이 rest api 라우터를 분리한다. 주석
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 app.use("/push", pushRouter);
 app.use("/smtp", mailRouter);
 app.use("/ss", ssRouter);
 
 
 var WebSocketServer = require("ws").Server;
+// [CONFIGURE SERVER PORT]
+var port = process.env.PORT || 3000;
 
 var server = app.listen(port, function () {
   //listening
