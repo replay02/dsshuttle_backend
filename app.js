@@ -204,14 +204,14 @@ app.use("/push", pushRouter);
 app.use("/smtp", mailRouter);
 app.use("/ss", ssRouter);
 
-// [RUN SERVER]
-var server = app.listen(port, function() {
-  console.log("Express server has started on port " + port);
-});
+// // [RUN SERVER]
+// var server = app.listen(port, function() {
+//   console.log("Express server has started on port " + port);
+// });
 
 
-var WebSocketS = require("ws").Server;
-var wss = new WebSocketS({ port: 3001 });
+var WebSocketServer = require("ws").Server;
+var wss = new WebSocketServer({ port: 3001, path:"/realtime" });
 
 // 연결이 수립되면 클라이언트에 메시지를 전송하고 클라이언트로부터의 메시지를 수신한다
 wss.on("connection", function(ws) {
