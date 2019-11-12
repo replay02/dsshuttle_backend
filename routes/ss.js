@@ -1323,8 +1323,13 @@ module.exports = function(
 
 
   var WebSocketServer = require("ws").Server;
+
+  var server = router.listen(3001, function () {
+    //listening
+  })
+
   var wss = new WebSocketServer({
-    port: 3001
+    server
   });
   wss.on("connection", function(ws) {
     ws.send("Hello! I am a server.");
@@ -1332,7 +1337,7 @@ module.exports = function(
       console.log("Received: %s", message);
     });
   });
-  
+
 
   return router; //라우터를 리턴
 };
