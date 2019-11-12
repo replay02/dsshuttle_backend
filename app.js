@@ -77,12 +77,12 @@ var pushServerKey = severConfig.pushSeverkey;
 //라우터에서 사용되는 모델 또는 설정값, 메시징규격 등을 전달한다.
 //var router = require('./routes')(app, DriveInfo, SmtpPool, pushServerKey, KarforuInfo);
 //라우터를 유형별로 나눈다. index/push/mail
-var indexRouter = require("./routes/index")(
-  app,
-  DriveInfo,
-  SmtpPool,
-  KarforuInfo
-);
+// var indexRouter = require("./routes/index")(
+//   app,
+//   DriveInfo,
+//   SmtpPool,
+//   KarforuInfo
+// );
 var pushRouter = require("./routes/push")(app, pushServerKey);
 var mailRouter = require("./routes/smtp")(app, SmtpPool, KarforuInfo);
 var ssRouter = require("./routes/ss")(
