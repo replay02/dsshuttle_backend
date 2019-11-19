@@ -18,22 +18,16 @@ var port = process.env.PORT || 8088;
 //var fcm = require('fcm-node');
 
 app.use(cors());
-
-
-
-
-var expressWs = require("express-ws")(app); 
-var webso = require("./routes/ws"); 
-app.use("/realtime",webso); 
-app.listen(3000); 
-
-
 // [CONFIGURE APP TO USE bodyParser]
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-
+// 웹소켓
+var expressWs = require("express-ws")(app); 
+var webso = require("./routes/ws"); 
+app.use("/realtime",webso); 
+// app.listen(3000); 
 
 
 
