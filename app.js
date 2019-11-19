@@ -1,6 +1,7 @@
 // [LOAD PACKAGES]
 var express = require("express");
 var app = express();
+var app_socket = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var cors = require("cors");
@@ -24,10 +25,10 @@ app.use(bodyParser.json());
 
 
 // 웹소켓
-var expressWs = require("express-ws")(app); 
+var expressWs = require("express-ws")(app_socket); 
 var webso = require("./routes/ws"); 
-app.use("/websocket",webso); 
-// app.listen(3000); 
+app_socket.use("/websocket",webso); 
+app_socket.listen(3000); 
 
 
 
