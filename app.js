@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 var expressWs = require("express-ws")(app_socket); 
 var webso = require("./routes/ws"); 
 app_socket.use("/websocket",webso); 
-app_socket.listen(8080); 
+app_socket.listen(3001); 
 
 
 
