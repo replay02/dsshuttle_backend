@@ -25,10 +25,12 @@ app.use(bodyParser.json());
 
 
 // 웹소켓
-var expressWs = require("express-ws")(app_socket); 
+
+var server = require('http').Server(app_socket);
+var expressWs = require('express-ws')(app_socket,server);
 var webso = require("./routes/ws"); 
-app_socket.use("/websocket",webso); 
-app_socket.listen(3001); 
+expressWs.use("/websocket",webso); 
+expressWs.listen(3001); 
 
 
 
