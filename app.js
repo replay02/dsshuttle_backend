@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // 웹소켓
 var expressWs = require("express-ws")(app); 
 var webso = require("./routes/ws"); 
-app.use("/realtime",webso); 
+app.use("/websocket",webso); 
 // app.listen(3000); 
 
 
